@@ -1,0 +1,6 @@
+# build inputs only — keep the upload lean and under the 100MB file cap
+assets
+review
+docs
+dist
+.DS_Store
