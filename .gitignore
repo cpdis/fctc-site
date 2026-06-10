@@ -1,0 +1,15 @@
+# build
+node_modules/
+dist/
+.astro/
+.vercel/
+
+# source originals (full-res photos + 225MB video) — shipping copies live in
+# src/assets/photos/, downscaled. Originals stay local only.
+assets/
+
+# os
+.DS_Store
+
+# review scratch
+review/

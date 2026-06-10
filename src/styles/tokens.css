@@ -1,0 +1,59 @@
+/* ============================================================
+   FCTC brand tokens — the canonical sheet for every fctc.fun
+   property. The hub is the source of truth; drift the dashboard
+   (Bricolage + DM Sans already) and the cup (Space Grotesk +
+   JetBrains Mono) toward these over time.
+
+   Palette story: espresso + cream from the coffee, gold from the
+   Cup (#ffd23f), ember/sunburst from the club socks (yellow →
+   orange → red retro stripes).
+   ============================================================ */
+
+:root {
+  /* type */
+  --font-display: "Bricolage Grotesque Variable", system-ui, sans-serif;
+  --font-body: "DM Sans Variable", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+
+  /* brand constants (theme-independent) */
+  --gold: #ffd23f;        /* FCTC Cup gold */
+  --ember: #ff7a30;       /* sock stripe orange */
+  --flame: #e8442c;       /* sock stripe red */
+  --espresso: #1c1410;    /* darkest coffee */
+  --crema: #faf5ea;       /* paper cream */
+
+  /* stripe motif, used as a repeating border/divider */
+  --stripe: linear-gradient(
+    to right,
+    var(--gold) 0 33.3%,
+    var(--ember) 33.3% 66.6%,
+    var(--flame) 66.6% 100%
+  );
+}
+
+/* light (default): cream paper, espresso ink */
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: var(--crema);
+  --bg-raised: #fffdf6;
+  --ink: var(--espresso);
+  --ink-soft: #5c4f43;
+  --line: #d9cdb8;
+  --accent: var(--flame);
+  --accent-ink: var(--crema);
+  --gold-ink: var(--espresso); /* text on gold surfaces */
+}
+
+/* dark: espresso, cream ink, gold pops harder */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: var(--espresso);
+  --bg-raised: #2a201a;
+  --ink: var(--crema);
+  --ink-soft: #b3a08f;
+  --line: #41342a;
+  --accent: var(--gold);
+  --accent-ink: var(--espresso);
+  --gold-ink: var(--espresso);
+}

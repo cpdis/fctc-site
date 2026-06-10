@@ -1,0 +1,77 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import sunrise from "../assets/photos/trigg-sunrise.jpg";
+---
+
+<Base
+  title="Off course — FCTC"
+  description="That page doesn't exist. Run it back to the start."
+>
+  <section class="lost">
+    <div class="wrap lost-grid">
+      <div>
+        <p class="tag">404 — Off Course</p>
+        <h1>You've run past the turnaround.</h1>
+        <p class="sub">
+          There's nothing out here but soft sand. Head back and we'll wait at
+          the coffee.
+        </p>
+        <a class="btn" href="/">↝ Back to the start</a>
+      </div>
+      <figure>
+        <Image
+          src={sunrise}
+          alt="Sunrise over the ocean at Trigg"
+          widths={[480, 900]}
+          sizes="(max-width: 56rem) 92vw, 44vw"
+        />
+      </figure>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lost {
+    padding-block: clamp(3rem, 9vw, 7rem);
+  }
+  .lost-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: center;
+  }
+  h1 {
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    margin-block: 0.5rem 1rem;
+  }
+  .sub {
+    color: var(--ink-soft);
+    margin-bottom: 2rem;
+    max-width: 30rem;
+  }
+  .btn {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 0.7rem 1.4rem;
+  }
+  .btn:hover {
+    border-color: var(--accent);
+  }
+  figure img {
+    border-radius: 1rem;
+    border: 2px solid var(--espresso);
+    box-shadow: 8px 8px 0 var(--flame);
+  }
+  @media (max-width: 56rem) {
+    .lost-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

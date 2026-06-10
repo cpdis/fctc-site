@@ -1,0 +1,40 @@
+---
+// The Framer site's signature strip, kept as a brand element.
+const TEXT = "FILAMENT COFFEE • COLD BREW • RUN • ";
+---
+
+<div class="marquee" aria-hidden="true">
+  <!-- two copies; the track slides -50% for a seamless loop -->
+  <div class="track">
+    <span>{TEXT.repeat(4)}</span>
+    <span>{TEXT.repeat(4)}</span>
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    background: var(--gold);
+    color: var(--gold-ink);
+    border-block: 2px solid var(--espresso);
+    padding-block: 0.55rem;
+  }
+  .track {
+    display: flex;
+    width: max-content;
+    animation: slide 40s linear infinite;
+  }
+  .track span {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.18em;
+    white-space: nowrap;
+  }
+  @keyframes slide {
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .track { animation: none; }
+  }
+</style>

@@ -1,0 +1,544 @@
+---
+import { Image } from "astro:assets";
+import Base, { LINKS } from "../layouts/Base.astro";
+import Marquee from "../components/Marquee.astro";
+
+import heroPhoto from "../assets/photos/club-singlet.jpg";
+import signPhoto from "../assets/photos/filament-sign.jpg";
+import wedPhoto from "../assets/photos/wednesday-crew.jpg";
+import friPhoto from "../assets/photos/breakfast-il-lido.jpg";
+import mentalPhoto from "../assets/photos/run-mental.jpg";
+import sockPhoto from "../assets/photos/sock-game.jpg";
+
+// Strava club events live only here and in the footer of Strava itself —
+// these IDs came off the old Framer page during the content archive.
+const EVENTS = {
+  wednesday: `${LINKS.strava}/group_events/1434762`,
+  friday: `${LINKS.strava}/group_events/1434766`,
+};
+
+// Wednesday rotation by week of the month, verbatim from the club.
+const ROTATION = [
+  { week: "1st", session: "Intervals" },
+  { week: "2nd", session: "Herdy's + Monger 12km Cruise" },
+  { week: "3rd", session: "Intervals" },
+  { week: "4th", session: "8km Community Cruise" },
+  { week: "5th", session: "Cooper's Test, Half Marathon…" },
+];
+
+const TRADITIONS = [
+  {
+    name: "ANZAC Day Marathon",
+    blurb: "A marathon on ANZAC day, because a dawn service deserves a dawn effort.",
+  },
+  {
+    name: "Avon Valley",
+    blurb: "A 32km adventure through the Avon Valley.",
+  },
+  {
+    name: "7 Halfs in 7 Days",
+    blurb: "Seven half marathons, seven days. It made sense at the time.",
+  },
+  {
+    name: "Birthday Halfs",
+    blurb: "If it's your birthday, we run a half marathon in your honor.",
+  },
+];
+
+// Cards for the live apps. Appending next year's page = one entry here.
+const APP_CARDS = [
+  {
+    href: "/dashboard",
+    name: "Dashboard",
+    blurb: "Live club stats — who's running, how far, and who's been to coffee.",
+  },
+  {
+    href: "/cup",
+    name: "FCTC Cup 2026",
+    blurb: "The season-long competition. Points, standings, and the race for the gold.",
+  },
+  {
+    href: "/2025wrapped",
+    name: "2025 Wrapped",
+    blurb: "The year in review — every member, every kilometre, wrapped.",
+  },
+];
+---
+
+<Base
+  title="Filament Coffee Track Club"
+  description="Perth run club. Wednesdays at Herdsman Lake 5:45am, Fridays at il Lido 6:30am. We warm up together, we drink coffee at the end together — in between, run as fast, slow, or mental as you want."
+>
+  <!-- ============ hero ============ -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="tag">Perth, Western Australia</p>
+        <h1>Filament Coffee Track&nbsp;Club</h1>
+        <ul class="meet-times" role="list">
+          <li>
+            <span class="when">Wed — 0545</span>
+            <span class="where">⚲ Herdsman Lake, Filament Coffee</span>
+          </li>
+          <li>
+            <span class="when">Fri — 0630</span>
+            <span class="where">⚲ il Lido, Cottesloe</span>
+          </li>
+        </ul>
+        <div class="cta-row">
+          <a class="btn btn-solid" href={LINKS.whatsapp}>Join the WhatsApp</a>
+          <a class="btn" href={LINKS.strava}>Strava Club</a>
+        </div>
+      </div>
+      <figure class="hero-photo">
+        <Image
+          src={heroPhoto}
+          alt="Runner in a Filament Coffee Track Club singlet at golden hour"
+          widths={[480, 800, 1200]}
+          sizes="(max-width: 56rem) 92vw, 42vw"
+          loading="eager"
+        />
+      </figure>
+    </div>
+  </section>
+
+  <Marquee />
+
+  <!-- ============ manifesto ============ -->
+  <section class="manifesto" id="manifesto">
+    <div class="wrap manifesto-grid">
+      <figure class="manifesto-photo">
+        <Image
+          src={signPhoto}
+          alt="Filament Coffee cold brew sign on a red brick wall"
+          widths={[480, 800]}
+          sizes="(max-width: 56rem) 92vw, 32vw"
+        />
+      </figure>
+      <div>
+        <p class="tag">FCTC Manifesto</p>
+        <h2 class="visually-hidden">Manifesto</h2>
+        <p class="creed">
+          We warm up <em>together</em>.<br />
+          We drink coffee at the end <em>together</em>.<br />
+          In between, you can run as fast, slow, or
+          <em>mental</em> as you want.
+        </p>
+        <p class="amen">Amen scoundrels.</p>
+        <p class="creed-foot">
+          Balancing people's different fitness and social needs — we all run
+          for different reasons, and everyone should get what they need out of
+          our group sessions.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ weekly runs ============ -->
+  <section class="runs" id="runs">
+    <div class="wrap">
+      <p class="tag">The Weekly Runs</p>
+      <div class="run-grid">
+        <article class="run-card">
+          <figure>
+            <Image
+              src={wedPhoto}
+              alt="The Wednesday crew running through Perth suburbs under a blue sky"
+              widths={[480, 800]}
+              sizes="(max-width: 56rem) 92vw, 42vw"
+            />
+          </figure>
+          <header>
+            <h3>Wednesday</h3>
+            <p class="meta">⚲ Herdsman Lake · 0545</p>
+          </header>
+          <p>
+            Something for everyone. Easy some weeks, intervals and tempo
+            others. Everything at your own pace — all welcome.
+          </p>
+          <ol class="rotation" role="list">
+            {ROTATION.map(({ week, session }) => (
+              <li>
+                <span class="week">{week} ↝</span> {session}
+              </li>
+            ))}
+          </ol>
+          <a class="event-link" href={EVENTS.wednesday}>† Check it out on Strava</a>
+        </article>
+
+        <article class="run-card">
+          <figure>
+            <Image
+              src={friPhoto}
+              alt="Post-run breakfast on the wall at il Lido, ocean behind"
+              widths={[480, 800]}
+              sizes="(max-width: 56rem) 92vw, 42vw"
+            />
+          </figure>
+          <header>
+            <h3>Friday</h3>
+            <p class="meta">⚲ il Lido · 0630</p>
+          </header>
+          <p>Beach during the summer, suburbs in the winter.</p>
+          <ul class="rotation" role="list">
+            <li><span class="week">Sun ↝</span> 7–10km on the soft sand when the sand is warm</li>
+            <li><span class="week">Rain ↝</span> 10km through the suburbs when it's cold</li>
+          </ul>
+          <a class="event-link" href={EVENTS.friday}>† Check it out on Strava</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ traditions ============ -->
+  <section class="traditions" id="traditions">
+    <div class="wrap traditions-grid">
+      <div>
+        <p class="tag">When it's not Wednesday or Friday</p>
+        <h2>The Traditions</h2>
+        <p class="trad-intro">
+          Always something different, always exciting.
+        </p>
+        <ol class="trad-list" role="list">
+          {TRADITIONS.map(({ name, blurb }, i) => (
+            <li>
+              <span class="num">{String(i + 1).padStart(2, "0")}</span>
+              <div>
+                <h3>{name}</h3>
+                <p>{blurb}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div class="trad-photos">
+        <Image
+          src={mentalPhoto}
+          alt="Runner throwing a shaka mid-run"
+          widths={[420, 700]}
+          sizes="(max-width: 56rem) 45vw, 24vw"
+        />
+        <Image
+          src={sockPhoto}
+          alt="Retro striped club socks and well-worn running shoes"
+          widths={[420, 700]}
+          sizes="(max-width: 56rem) 45vw, 24vw"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ live apps ============ -->
+  <section class="apps" id="apps">
+    <div class="wrap">
+      <p class="tag">Club HQ, on the internet</p>
+      <h2>The Apps</h2>
+      <div class="app-grid">
+        {APP_CARDS.map(({ href, name, blurb }) => (
+          <a class="app-card" href={href}>
+            <h3>{name} <span aria-hidden="true">→</span></h3>
+            <p>{blurb}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ---- hero ---- */
+  .hero {
+    padding-block: clamp(2.5rem, 7vw, 5.5rem) clamp(2.5rem, 6vw, 4.5rem);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: center;
+  }
+  .hero h1 {
+    font-size: clamp(2.6rem, 7vw, 5rem);
+    margin-block: 0.5rem 1.5rem;
+  }
+  .meet-times {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.4rem;
+    margin-bottom: 2rem;
+  }
+  .meet-times .when {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--accent);
+    margin-right: 0.75rem;
+  }
+  .meet-times .where {
+    font-size: 0.98rem;
+    color: var(--ink-soft);
+  }
+  .cta-row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 0.7rem 1.4rem;
+  }
+  .btn:hover {
+    border-color: var(--accent);
+  }
+  .btn-solid {
+    background: var(--gold);
+    border-color: var(--espresso);
+    color: var(--gold-ink);
+  }
+  .btn-solid:hover {
+    background: var(--ember);
+    color: var(--espresso);
+  }
+  .hero-photo {
+    position: relative;
+  }
+  .hero-photo img {
+    border-radius: 1rem;
+    border: 2px solid var(--espresso);
+    box-shadow: 8px 8px 0 var(--gold);
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  /* ---- manifesto ---- */
+  .manifesto {
+    padding-block: clamp(3rem, 8vw, 6rem);
+  }
+  .manifesto-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: center;
+  }
+  .manifesto-photo img {
+    border-radius: 1rem;
+    border: 2px solid var(--espresso);
+    box-shadow: -8px 8px 0 var(--flame);
+  }
+  .creed {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 3.4vw, 2.5rem);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin-block: 1rem 1.25rem;
+    text-wrap: balance;
+  }
+  .creed em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .amen {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(1.3rem, 2.6vw, 1.9rem);
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+  .creed-foot {
+    color: var(--ink-soft);
+    max-width: 38rem;
+  }
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  /* ---- weekly runs ---- */
+  .runs {
+    padding-block: clamp(3rem, 8vw, 6rem);
+  }
+  .run-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+    margin-top: 1.25rem;
+  }
+  .run-card {
+    background: var(--bg-raised);
+    border: 2px solid var(--espresso);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    display: grid;
+    gap: 0.9rem;
+    align-content: start;
+  }
+  :root[data-theme="dark"] .run-card {
+    border-color: var(--line);
+  }
+  .run-card figure img {
+    border-radius: 0.6rem;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+  .run-card h3 {
+    font-size: 1.8rem;
+  }
+  .run-card .meta {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+    margin-top: 0.2rem;
+  }
+  .rotation {
+    list-style: none;
+    padding: 0.9rem 0 0;
+    border-top: 1px dashed var(--line);
+    display: grid;
+    gap: 0.35rem;
+    font-size: 0.95rem;
+  }
+  .rotation .week {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    display: inline-block;
+    min-width: 3.6rem;
+  }
+  .event-link {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    justify-self: start;
+  }
+
+  /* ---- traditions ---- */
+  .traditions {
+    padding-block: clamp(3rem, 8vw, 6rem);
+  }
+  .traditions h2,
+  .apps h2 {
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    margin-block: 0.4rem 0.8rem;
+  }
+  .traditions-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: center;
+  }
+  .trad-intro {
+    color: var(--ink-soft);
+    margin-bottom: 1.5rem;
+  }
+  .trad-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+  }
+  .trad-list li {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    border-top: 1px dashed var(--line);
+    padding-top: 1.25rem;
+  }
+  .trad-list .num {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .trad-list h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.2rem;
+  }
+  .trad-list p {
+    color: var(--ink-soft);
+    font-size: 0.98rem;
+  }
+  .trad-photos {
+    display: grid;
+    gap: 1rem;
+  }
+  .trad-photos img {
+    border-radius: 1rem;
+    border: 2px solid var(--espresso);
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+  .trad-photos img:first-child {
+    box-shadow: 8px 8px 0 var(--ember);
+  }
+  .trad-photos img:last-child {
+    box-shadow: -8px 8px 0 var(--gold);
+  }
+
+  /* ---- apps ---- */
+  .apps {
+    padding-block: clamp(3rem, 8vw, 6rem) clamp(4rem, 9vw, 7rem);
+  }
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  .app-card {
+    background: var(--bg-raised);
+    border: 2px solid var(--espresso);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    text-decoration: none;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+  }
+  :root[data-theme="dark"] .app-card {
+    border-color: var(--line);
+  }
+  .app-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 6px 6px 0 var(--gold);
+    color: inherit;
+  }
+  .app-card h3 {
+    font-size: 1.35rem;
+    margin-bottom: 0.5rem;
+  }
+  .app-card h3 span {
+    color: var(--accent);
+  }
+  .app-card p {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+
+  /* ---- responsive ---- */
+  @media (max-width: 56rem) {
+    .hero-grid,
+    .manifesto-grid,
+    .run-grid,
+    .traditions-grid {
+      grid-template-columns: 1fr;
+    }
+    .manifesto-photo {
+      order: 2;
+      max-width: 26rem;
+    }
+    .trad-photos {
+      grid-template-columns: 1fr 1fr;
+    }
+    .app-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

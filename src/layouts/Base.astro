@@ -1,0 +1,179 @@
+---
+import "@fontsource-variable/bricolage-grotesque";
+import "@fontsource-variable/dm-sans";
+import "@fontsource-variable/jetbrains-mono";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+
+// External club links — also used by the footer.
+export const LINKS = {
+  whatsapp: "https://chat.whatsapp.com/DzeapmJ6Pm4ILqSNNwFasq",
+  strava: "https://www.strava.com/clubs/1156647",
+};
+
+// Every FCTC property on the domain. Adding next year's page = one entry
+// here (nav) + one entry in vercel.json (routing).
+export const APPS = [
+  { href: "/dashboard", label: "Dashboard" },
+  { href: "/cup", label: "Cup" },
+  { href: "/2025wrapped", label: "2025 Wrapped" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:image" content={new URL("/og.jpg", Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <meta name="theme-color" content="#faf5ea" />
+
+    <!-- No-flash theme: saved choice > OS preference. Runs before paint. -->
+    <script is:inline>
+      (() => {
+        const saved = localStorage.getItem("theme");
+        const theme =
+          saved === "light" || saved === "dark"
+            ? saved
+            : matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+        document.documentElement.dataset.theme = theme;
+        document
+          .querySelector('meta[name="theme-color"]')
+          .setAttribute("content", theme === "dark" ? "#1c1410" : "#faf5ea");
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap bar">
+        <a class="mark" href="/">FCTC</a>
+        <nav aria-label="Club apps">
+          {APPS.map((app) => <a href={app.href}>{app.label}</a>)}
+        </nav>
+        <button id="theme-toggle" aria-label="Toggle light/dark theme">
+          <!-- sun/moon swap is pure CSS off data-theme -->
+          <span class="sun" aria-hidden="true">☀</span>
+          <span class="moon" aria-hidden="true">☾</span>
+        </button>
+      </div>
+      <div class="stripe" role="presentation"></div>
+    </header>
+
+    <slot />
+
+    <footer class="site-footer">
+      <div class="stripe" role="presentation"></div>
+      <div class="wrap foot">
+        <p class="tag">Filament Coffee Track Club — Perth, WA</p>
+        <nav aria-label="Footer">
+          {APPS.map((app) => <a href={app.href}>{app.label}</a>)}
+          <a href={LINKS.whatsapp}>WhatsApp</a>
+          <a href={LINKS.strava}>Strava</a>
+        </nav>
+        <p class="tag">Amen scoundrels.</p>
+      </div>
+    </footer>
+
+    <script>
+      const toggle = document.getElementById("theme-toggle")!;
+      const meta = document.querySelector('meta[name="theme-color"]')!;
+      toggle.addEventListener("click", () => {
+        const next =
+          document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem("theme", next);
+        meta.setAttribute("content", next === "dark" ? "#1c1410" : "#faf5ea");
+      });
+    </script>
+
+    <style>
+      .site-header .bar {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        padding-block: 0.9rem;
+      }
+      .mark {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 1.4rem;
+        letter-spacing: -0.02em;
+        text-decoration: none;
+      }
+      .site-header nav {
+        display: flex;
+        gap: 1.1rem;
+        margin-left: auto;
+        flex-wrap: wrap;
+      }
+      .site-header nav a {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        text-decoration: none;
+      }
+      .site-header nav a:hover {
+        text-decoration: underline;
+        text-decoration-color: var(--accent);
+      }
+      #theme-toggle {
+        background: none;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--ink);
+        cursor: pointer;
+        font-size: 0.95rem;
+        line-height: 1;
+        padding: 0.45rem 0.55rem;
+      }
+      #theme-toggle:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      :global(:root[data-theme="dark"]) .sun { display: none; }
+      :global(:root:not([data-theme="dark"])) .moon { display: none; }
+
+      .site-footer .foot {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 1rem 2rem;
+        padding-block: 2rem 2.5rem;
+      }
+      .site-footer nav {
+        display: flex;
+        gap: 1.25rem;
+        flex-wrap: wrap;
+        margin-inline: auto;
+      }
+      .site-footer nav a {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        text-decoration: none;
+      }
+      .site-footer nav a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </body>
+</html>

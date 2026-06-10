@@ -1,0 +1,18 @@
+{
+  "name": "fctc-site",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check:routes": "scripts/check-routes.sh"
+  },
+  "dependencies": {
+    "@fontsource-variable/bricolage-grotesque": "^5.2.10",
+    "@fontsource-variable/dm-sans": "^5.2.8",
+    "@fontsource-variable/jetbrains-mono": "^5.2.8",
+    "astro": "^5.17.1"
+  }
+}
