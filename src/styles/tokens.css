@@ -6,7 +6,8 @@
 
    Palette story: espresso + cream from the coffee, gold from the
    Cup (#ffd23f), ember/sunburst from the club socks (yellow →
-   orange → red retro stripes).
+   orange → red retro stripes), pink + seafoam from the Filament
+   Coffee cold brew sign.
    ============================================================ */
 
 :root {
@@ -19,6 +20,8 @@
   --gold: #ffd23f;        /* FCTC Cup gold */
   --ember: #ff7a30;       /* sock stripe orange */
   --flame: #e8442c;       /* sock stripe red */
+  --pink: #d75b77;        /* Filament sign pink */
+  --seafoam: #9ed1af;     /* Filament sign seafoam */
   --espresso: #1c1410;    /* darkest coffee */
   --crema: #faf5ea;       /* paper cream */
 
@@ -40,7 +43,7 @@
   --ink: var(--espresso);
   --ink-soft: #5c4f43;
   --line: #d9cdb8;
-  --accent: var(--flame);
+  --accent: var(--pink);
   --accent-ink: var(--crema);
   --gold-ink: var(--espresso); /* text on gold surfaces */
 }
