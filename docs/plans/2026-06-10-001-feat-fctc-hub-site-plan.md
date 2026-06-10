@@ -1,6 +1,6 @@
 # FCTC hub site — replace the Framer apex with a code-owned hub
 
-**Status:** U1–U3 built (site + routing table in this repo); U4 cutover + U5 post-cutover pending
+**Status:** LIVE — U1–U4 complete (fctc.fun cut over to Vercel 2026-06-10, parity 11/11); U5 mostly done (firewall on all 3 projects, worker marked bypassed). Remaining: delete the `fctc2025-proxy` worker + zone route after the cutover soaks, then cancel the Framer subscription.
 **Repo:** `cpdis/fctc-site` (this folder; repo not created yet)
 **Implements at:** `fctc.fun` (apex)
 
