@@ -10,68 +10,95 @@ html {
 }
 
 body {
+  font-family: var(--font-body);
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-body);
-  font-size: 1.0625rem;
+  font-size: 18px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3 {
-  font-family: var(--font-display);
-  line-height: 1.05;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  text-wrap: balance;
+img {
+  display: block;
+  max-width: 100%;
 }
 
 a {
   color: inherit;
-  text-decoration-color: var(--accent);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 3px;
+  text-decoration: none;
 }
 
-a:hover {
-  color: var(--accent);
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-::selection {
-  background: var(--gold);
-  color: var(--gold-ink);
-}
-
-/* shared layout rhythm */
-.wrap {
-  max-width: 72rem;
-  margin-inline: auto;
-  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
-}
-
-/* mono "metadata" label — time, place, section tags */
-.tag {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  font-weight: 500;
+/* ---- poster type utilities ---- */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--ink-soft);
+  line-height: 0.92;
+  letter-spacing: 0.005em;
 }
 
-/* the yellow→orange→red sock-stripe divider */
+.mono {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ---- layout rhythm ---- */
+.wrap {
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4vw, 48px);
+}
+
 .stripe {
-  height: 6px;
+  height: 8px;
   background: var(--stripe);
-  border: 0;
 }
 
+/* ---- duotone photos: grayscale + pink multiply, blooms to color on hover ---- */
+.duo {
+  position: relative;
+  overflow: hidden;
+}
+.duo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.1);
+  transition: filter 0.45s ease, scale 0.45s ease;
+}
+.duo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--duo-tint);
+  mix-blend-mode: multiply;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+.duo.plain img { filter: none; }
+.duo.plain::after { display: none; }
+.duo:hover img {
+  filter: grayscale(0) contrast(1);
+  scale: 1.03;
+}
+.duo:hover::after { opacity: 0; }
+
+/* ---- scroll reveals ----
+   JS adds .js-anim to <html> only when prefers-reduced-motion allows;
+   base state (no-JS, print, reduced motion) is fully visible. */
+html.js-anim [data-rv] {
+  opacity: 0;
+  translate: 0 26px;
+  transition: opacity 0.65s ease, translate 0.65s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+html.js-anim [data-rv].rv {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* ---- reduced motion: kill everything decorative ---- */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

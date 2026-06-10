@@ -1,13 +1,21 @@
 ---
-// The Framer site's signature strip, kept as a brand element.
-const TEXT = "FILAMENT COFFEE • COLD BREW • RUN • ";
+// Gold marquee strip. Decorative (aria-hidden); pauses on hover.
+// `reverse` flips the travel direction for the closing band.
+interface Props {
+  text: string;
+  reverse?: boolean;
+}
+
+const { text, reverse = false } = Astro.props;
+
+// two identical spans; the track slides -50% for a seamless loop
+const content = `${text} • `.repeat(6);
 ---
 
-<div class="marquee" aria-hidden="true">
-  <!-- two copies; the track slides -50% for a seamless loop -->
+<div class:list={["marquee", { reverse }]} aria-hidden="true">
   <div class="track">
-    <span>{TEXT.repeat(4)}</span>
-    <span>{TEXT.repeat(4)}</span>
+    <span>{content}</span>
+    <span>{content}</span>
   </div>
 </div>
 
@@ -15,26 +23,29 @@ const TEXT = "FILAMENT COFFEE • COLD BREW • RUN • ";
   .marquee {
     overflow: hidden;
     background: var(--gold);
-    color: var(--gold-ink);
+    color: var(--espresso);
     border-block: 2px solid var(--espresso);
-    padding-block: 0.55rem;
+    padding: 10px 0;
   }
   .track {
     display: flex;
     width: max-content;
-    animation: slide 40s linear infinite;
+    animation: slide var(--marquee-dur) linear infinite;
   }
-  .track span {
+  .marquee.reverse .track {
+    animation-direction: reverse;
+  }
+  .marquee:hover .track {
+    animation-play-state: paused;
+  }
+  .marquee span {
     font-family: var(--font-mono);
     font-weight: 700;
-    font-size: 0.9rem;
-    letter-spacing: 0.18em;
+    font-size: 14px;
+    letter-spacing: 0.2em;
     white-space: nowrap;
   }
   @keyframes slide {
     to { transform: translateX(-50%); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .track { animation: none; }
   }
 </style>

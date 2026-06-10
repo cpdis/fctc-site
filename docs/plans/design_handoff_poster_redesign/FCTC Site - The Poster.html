@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Filament Coffee Track Club — The Poster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="designs/poster.css" />
+  <script>
+    // No-flash theme: saved choice > OS preference.
+    (function () {
+      var saved = localStorage.getItem("fctc-poster-theme");
+      var theme = saved === "light" || saved === "dark"
+        ? saved
+        : (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header" data-screen-label="Header">
+    <div class="bar">
+      <a class="mark" href="#">
+        <svg class="cup" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path class="steam s1" d="M9 2.2 q1.1 1.4 0 2.8 q-1.1 1.4 0 2.8"></path>
+          <path class="steam s2" d="M13.5 2.2 q1.1 1.4 0 2.8 q-1.1 1.4 0 2.8"></path>
+          <path d="M5 11 h12 v4.5 a4.5 4.5 0 0 1 -4.5 4.5 h-3 A4.5 4.5 0 0 1 5 15.5 z"></path>
+          <path d="M17 12 h1.2 a2.4 2.4 0 0 1 0 4.8 H17"></path>
+        </svg>
+        <span class="mark-text">FC<b>TC</b></span>
+      </a>
+      <nav aria-label="Club apps">
+        <a href="#">Dashboard</a>
+        <a href="#">Cup</a>
+        <a href="#">Wrapped</a>
+        <button id="theme-toggle" aria-label="Toggle light/dark theme">
+          <span class="sun" aria-hidden="true">☀</span>
+          <span class="moon" aria-hidden="true">☾</span>
+        </button>
+      </nav>
+    </div>
+    <div class="stripe" role="presentation"></div>
+  </header>
+
+  <section class="hero" data-screen-label="Hero">
+    <div class="wrap">
+      <h1 class="display">
+        <span class="line-clip"><span class="line">Filament</span></span>
+        <span class="line-clip"><span class="line pink">Coffee</span></span>
+        <span class="line-clip"><span class="line outline">Track Club</span></span>
+      </h1>
+      <div class="hero-meta">
+        <span class="mono"><b>Perth WA</b> — Est. on a Wednesday</span>
+        <span class="mono"><b>Wed 0530</b> Herdsman Lake</span>
+        <span class="mono"><b>Fri 0600</b> il Lido, Cottesloe</span>
+      </div>
+      <div class="ctas">
+        <a class="btn btn-solid" href="https://chat.whatsapp.com/DzeapmJ6Pm4ILqSNNwFasq">Join the WhatsApp</a>
+        <a class="btn" href="https://www.strava.com/clubs/1156647">Strava Club</a>
+      </div>
+    </div>
+    <div class="strip">
+      <figure class="duo"><img src="photos/wednesday-crew.jpg" alt="Wednesday crew running through Perth suburbs" /></figure>
+      <figure class="duo plain"><img src="photos/club-singlet.jpg" alt="Runner in an FCTC singlet at golden hour" /></figure>
+      <figure class="duo"><img src="photos/breakfast-il-lido.jpg" alt="Post-run breakfast at il Lido" /></figure>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="track">
+      <span>FILAMENT COFFEE • COLD BREW • RUN • FILAMENT COFFEE • COLD BREW • RUN • FILAMENT COFFEE • COLD BREW • RUN • FILAMENT COFFEE • COLD BREW • RUN • FILAMENT COFFEE • COLD BREW • RUN • FILAMENT COFFEE • COLD BREW • RUN •&nbsp;</span>
+      <span>FILAMENT COFFEE • COLD BREW • RUN • FILAMENT COFFEE • COLD BREW • RUN • FILAMENT COFFEE • COLD BREW • RUN • FILAMENT COFFEE • COLD BREW • RUN • FILAMENT COFFEE • COLD BREW • RUN • FILAMENT COFFEE • COLD BREW • RUN •&nbsp;</span>
+    </div>
+  </div>
+
+  <section class="manifesto" data-screen-label="Manifesto">
+    <div class="wrap">
+      <p class="display creed" data-rv="">
+        We warm up together. We drink coffee together. In between, run as
+        fast, slow, or <span class="out">mental</span> as you
+        <span class="gold">want.</span>
+      </p>
+      <span class="stamp" id="stamp">★ Amen Scoundrels ★</span>
+      <p class="creed-foot" data-rv="">
+        Balancing people's different fitness and social needs — we all run
+        for different reasons, and everyone should get what they need out of
+        our group sessions.
+      </p>
+    </div>
+  </section>
+
+  <section class="section runs" data-screen-label="Weekly Runs">
+    <div class="wrap">
+      <div class="kicker" data-rv="">
+        <h2 class="display">The Weekly Runs</h2>
+        <span class="mono">Two starts. Zero alarms snoozed.</span>
+      </div>
+      <div class="run-grid" data-rv="">
+        <article class="run">
+          <figure class="duo"><img src="photos/wednesday-crew.jpg" alt="Wednesday crew mid-run" /></figure>
+          <div class="run-body">
+            <div class="run-head">
+              <h3 class="display">Wed</h3>
+              <span class="bib">0530 · Herdsman Lake</span>
+            </div>
+            <p>Something for everyone. Easy some weeks, intervals and tempo others — everything at your own pace, all welcome.</p>
+            <ul class="sched">
+              <li><span class="wk">1st</span><span>Intervals</span></li>
+              <li><span class="wk">2nd</span><span>Herdy's + Monger 12km Cruise</span></li>
+              <li><span class="wk">3rd</span><span>Intervals</span></li>
+              <li><span class="wk">4th</span><span>8km Community Cruise</span></li>
+              <li><span class="wk">5th</span><span class="rainbow" aria-label="Surprise?"><span style="--i: 0;">S</span><span style="--i: 1;">u</span><span style="--i: 2;">r</span><span style="--i: 3;">p</span><span style="--i: 4;">r</span><span style="--i: 5;">i</span><span style="--i: 6;">s</span><span style="--i: 7;">e</span><span style="--i: 8;">?</span></span></li>
+            </ul>
+            <a class="run-link" href="https://www.strava.com/clubs/1156647/group_events/1434762">Strava event ↗</a>
+          </div>
+        </article>
+        <article class="run">
+          <figure class="duo"><img src="photos/breakfast-il-lido.jpg" alt="Breakfast on the wall at il Lido" /></figure>
+          <div class="run-body">
+            <div class="run-head">
+              <h3 class="display">Fri</h3>
+              <span class="bib">0600 · il Lido</span>
+            </div>
+            <p>Beach during the summer, suburbs in the winter — and sometimes the CBD.</p>
+            <ul class="sched">
+              <li><span class="wk">Summer</span><span>7–10km on the soft sand when the sand is warm</span></li>
+              <li><span class="wk">Winter</span><span>10km through the suburbs when it's cold</span></li>
+              <li><span class="wk">MSBB</span><span>Some Fridays we start at Mount Street Breakfast Bar in the CBD</span></li>
+            </ul>
+            <a class="run-link" href="https://www.strava.com/clubs/1156647/group_events/1434766">Strava event ↗</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section trads" data-screen-label="Traditions">
+    <div class="wrap">
+      <div class="kicker" data-rv="">
+        <h2 class="display">The Traditions</h2>
+        <span class="mono">When it's not Wednesday or Friday</span>
+      </div>
+      <ol class="trad-list">
+        <li data-rv="">
+          <span class="num">01</span>
+          <h3>Anzac Day Marathon</h3>
+          <p>A marathon on Anzac Day, because a dawn service deserves a dawn effort.</p>
+        </li>
+        <li data-rv="" style="transition-delay: 0.08s;">
+          <span class="num">02</span>
+          <h3>Christmas Marathon</h3>
+          <p>The culmination of a year's training — capped off with the Christmas party and a White Elephant.</p>
+        </li>
+        <li data-rv="" style="transition-delay: 0.16s;">
+          <span class="num">03</span>
+          <h3>Aaron's Birthday Beer Run</h3>
+          <p>What better way to celebrate than a half marathon with a few beers along the way?</p>
+        </li>
+        <li data-rv="" style="transition-delay: 0.24s;">
+          <span class="num">04</span>
+          <h3>Birthday Halfs</h3>
+          <p>If it's your birthday, we run a half marathon in your honor.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="marquee reverse" aria-hidden="true">
+    <div class="track">
+      <span>AMEN SCOUNDRELS • SEE YOU AT 0530 • AMEN SCOUNDRELS • SEE YOU AT 0530 • AMEN SCOUNDRELS • SEE YOU AT 0530 • AMEN SCOUNDRELS • SEE YOU AT 0530 • AMEN SCOUNDRELS • SEE YOU AT 0530 • AMEN SCOUNDRELS • SEE YOU AT 0530 •&nbsp;</span>
+      <span>AMEN SCOUNDRELS • SEE YOU AT 0530 • AMEN SCOUNDRELS • SEE YOU AT 0530 • AMEN SCOUNDRELS • SEE YOU AT 0530 • AMEN SCOUNDRELS • SEE YOU AT 0530 • AMEN SCOUNDRELS • SEE YOU AT 0530 • AMEN SCOUNDRELS • SEE YOU AT 0530 •&nbsp;</span>
+    </div>
+  </div>
+
+  <footer class="site-footer" data-screen-label="Footer">
+    <div class="wrap foot">
+      <span class="mono">FCTC — Perth, WA</span>
+      <nav aria-label="Footer">
+        <a href="#">Dashboard</a>
+        <a href="#">Cup</a>
+        <a href="#">Wrapped</a>
+        <a href="https://chat.whatsapp.com/DzeapmJ6Pm4ILqSNNwFasq">WhatsApp</a>
+        <a href="https://www.strava.com/clubs/1156647">Strava</a>
+      </nav>
+      <span class="mono">Amen scoundrels.</span>
+    </div>
+  </footer>
+
+  <div id="tweaks-root"></div>
+
+  <script>
+    // theme toggle
+    document.getElementById("theme-toggle").addEventListener("click", function () {
+      var next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem("fctc-poster-theme", next);
+    });
+
+    // motion: gate all entrance animation on js + reduced-motion
+    if (matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+      document.documentElement.classList.add("js-anim");
+
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.classList.add("rv");
+            if (e.target.id === "stamp") e.target.classList.add("stamped");
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.18 });
+
+      document.querySelectorAll("[data-rv], #stamp").forEach(function (el) { io.observe(el); });
+    }
+  </script>
+
+  <!-- Tweaks panel -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel">
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "motion": "mental",
+      "duoTint": "#d75b77",
+      "colorHover": true
+    }/*EDITMODE-END*/;
+
+    function PosterTweaks() {
+      const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+      React.useEffect(() => {
+        const root = document.documentElement;
+        root.dataset.motion = t.motion;
+        root.dataset.colorhover = t.colorHover ? "on" : "off";
+        root.style.setProperty("--duo-tint", t.duoTint);
+      }, [t]);
+
+      return (
+        <TweaksPanel>
+          <TweakSection label="Motion" />
+          <TweakRadio label="Energy" value={t.motion} options={["calm", "mental"]}
+            onChange={(v) => setTweak("motion", v)} />
+          <TweakSection label="Photos" />
+          <TweakColor label="Duotone tint" value={t.duoTint}
+            options={["#d75b77", "#9ed1af", "#ffd23f"]}
+            onChange={(v) => setTweak("duoTint", v)} />
+          <TweakToggle label="Color on hover" value={t.colorHover}
+            onChange={(v) => setTweak("colorHover", v)} />
+        </TweaksPanel>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("tweaks-root")).render(<PosterTweaks />);
+  </script>
+</body>
+</html>

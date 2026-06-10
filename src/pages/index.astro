@@ -3,542 +3,594 @@ import { Image } from "astro:assets";
 import Base, { LINKS } from "../layouts/Base.astro";
 import Marquee from "../components/Marquee.astro";
 
-import heroPhoto from "../assets/photos/club-singlet.jpg";
-import signPhoto from "../assets/photos/filament-sign.jpg";
-import wedPhoto from "../assets/photos/wednesday-crew.jpg";
-import friPhoto from "../assets/photos/breakfast-il-lido.jpg";
-import mentalPhoto from "../assets/photos/run-mental.jpg";
-import sockPhoto from "../assets/photos/sock-game.jpg";
+import crewPhoto from "../assets/photos/wednesday-crew.jpg";
+import singletPhoto from "../assets/photos/club-singlet.jpg";
+import lidoPhoto from "../assets/photos/breakfast-il-lido.jpg";
 
-// Strava club events live only here and in the footer of Strava itself —
-// these IDs came off the old Framer page during the content archive.
+// Strava group events — archived off the old Framer page; the club's only
+// other record of these IDs is Strava itself.
 const EVENTS = {
   wednesday: `${LINKS.strava}/group_events/1434762`,
   friday: `${LINKS.strava}/group_events/1434766`,
 };
 
-// Wednesday rotation by week of the month, verbatim from the club.
+// Wednesday rotation by week of the month. The 5th week renders as
+// rainbow letters (see .rainbow styles below).
 const ROTATION = [
   { week: "1st", session: "Intervals" },
   { week: "2nd", session: "Herdy's + Monger 12km Cruise" },
   { week: "3rd", session: "Intervals" },
   { week: "4th", session: "8km Community Cruise" },
-  { week: "5th", session: "Cooper's Test, Half Marathon…" },
+];
+const SURPRISE = "Surprise?";
+
+const FRIDAY = [
+  { week: "Summer", session: "7–10km on the soft sand when the sand is warm" },
+  { week: "Winter", session: "10km through the suburbs when it's cold" },
+  { week: "MSBB", session: "Some Fridays we start at Mount Street Breakfast Bar in the CBD" },
 ];
 
 const TRADITIONS = [
   {
-    name: "ANZAC Day Marathon",
-    blurb: "A marathon on ANZAC day, because a dawn service deserves a dawn effort.",
+    name: "Anzac Day Marathon",
+    blurb: "A marathon on Anzac Day, because a dawn service deserves a dawn effort.",
   },
   {
-    name: "Avon Valley",
-    blurb: "A 32km adventure through the Avon Valley.",
+    name: "Christmas Marathon",
+    blurb: "The culmination of a year's training — capped off with the Christmas party and a White Elephant.",
   },
   {
-    name: "7 Halfs in 7 Days",
-    blurb: "Seven half marathons, seven days. It made sense at the time.",
+    name: "Aaron's Birthday Beer Run",
+    blurb: "What better way to celebrate than a half marathon with a few beers along the way?",
   },
   {
     name: "Birthday Halfs",
     blurb: "If it's your birthday, we run a half marathon in your honor.",
   },
 ];
-
-// Cards for the live apps. Appending next year's page = one entry here.
-const APP_CARDS = [
-  {
-    href: "/dashboard",
-    name: "Dashboard",
-    blurb: "Live club stats — who's running, how far, and who's been to coffee.",
-  },
-  {
-    href: "/cup",
-    name: "FCTC Cup 2026",
-    blurb: "The season-long competition. Points, standings, and the race for the gold.",
-  },
-  {
-    href: "/2025wrapped",
-    name: "2025 Wrapped",
-    blurb: "The year in review — every member, every kilometre, wrapped.",
-  },
-];
 ---
 
 <Base
   title="Filament Coffee Track Club"
-  description="Perth run club. Wednesdays at Herdsman Lake 5:30am, Fridays at il Lido 6:00am. We warm up together, we drink coffee at the end together — in between, run as fast, slow, or mental as you want."
+  description="Perth run club. Wednesdays at Herdsman Lake 5:30am, Fridays at il Lido 6:00am. We warm up together, we drink coffee together — in between, run as fast, slow, or mental as you want."
 >
   <!-- ============ hero ============ -->
   <section class="hero">
-    <div class="wrap hero-grid">
-      <div class="hero-copy">
-        <p class="tag">Perth, Western Australia</p>
-        <h1>Filament Coffee Track&nbsp;Club</h1>
-        <ul class="meet-times" role="list">
-          <li>
-            <span class="when">Wed — 0530</span>
-            <span class="where">⚲ Herdsman Lake, Filament Coffee</span>
-          </li>
-          <li>
-            <span class="when">Fri — 0600</span>
-            <span class="where">⚲ il Lido, Cottesloe</span>
-          </li>
-        </ul>
-        <div class="cta-row">
-          <a class="btn btn-solid" href={LINKS.whatsapp}>Join the WhatsApp</a>
-          <a class="btn" href={LINKS.strava}>Strava Club</a>
-        </div>
+    <div class="wrap">
+      <h1 class="display">
+        <span class="line-clip"><span class="line">Filament</span></span>
+        <span class="line-clip"><span class="line pink">Coffee</span></span>
+        <span class="line-clip"><span class="line outline">Track Club</span></span>
+      </h1>
+      <div class="hero-meta">
+        <span class="mono"><b>Perth WA</b> — Est. on a Wednesday</span>
+        <span class="mono"><b>Wed 0530</b> Herdsman Lake</span>
+        <span class="mono"><b>Fri 0600</b> il Lido, Cottesloe</span>
       </div>
-      <figure class="hero-photo">
+      <div class="ctas">
+        <a class="btn btn-solid" href={LINKS.whatsapp}>Join the WhatsApp</a>
+        <a class="btn" href={LINKS.strava}>Strava Club</a>
+      </div>
+    </div>
+    <div class="strip">
+      <figure class="duo">
         <Image
-          src={heroPhoto}
-          alt="Runner in a Filament Coffee Track Club singlet at golden hour"
+          src={crewPhoto}
+          alt="Wednesday crew running through Perth suburbs"
           widths={[480, 800, 1200]}
-          sizes="(max-width: 56rem) 92vw, 42vw"
+          sizes="(max-width: 900px) 92vw, 33vw"
+          loading="eager"
+        />
+      </figure>
+      <figure class="duo plain">
+        <Image
+          src={singletPhoto}
+          alt="Runner in an FCTC singlet at golden hour"
+          widths={[480, 800, 1200]}
+          sizes="(max-width: 900px) 92vw, 33vw"
+          loading="eager"
+        />
+      </figure>
+      <figure class="duo">
+        <Image
+          src={lidoPhoto}
+          alt="Post-run breakfast at il Lido"
+          widths={[480, 800, 1200]}
+          sizes="(max-width: 900px) 92vw, 33vw"
           loading="eager"
         />
       </figure>
     </div>
   </section>
 
-  <Marquee />
+  <Marquee text="FILAMENT COFFEE • COLD BREW • RUN" />
 
   <!-- ============ manifesto ============ -->
-  <section class="manifesto" id="manifesto">
-    <div class="wrap manifesto-grid">
-      <figure class="manifesto-photo">
-        <Image
-          src={signPhoto}
-          alt="Filament Coffee cold brew sign on a red brick wall"
-          widths={[480, 800]}
-          sizes="(max-width: 56rem) 92vw, 32vw"
-        />
-      </figure>
-      <div>
-        <p class="tag">FCTC Manifesto</p>
-        <h2 class="visually-hidden">Manifesto</h2>
-        <p class="creed">
-          We warm up <em>together</em>.<br />
-          We drink coffee at the end <em>together</em>.<br />
-          In between, you can run as fast, slow, or
-          <em>mental</em> as you want.
-        </p>
-        <p class="amen">Amen scoundrels.</p>
-        <p class="creed-foot">
-          Balancing people's different fitness and social needs — we all run
-          for different reasons, and everyone should get what they need out of
-          our group sessions.
-        </p>
-      </div>
+  <section class="manifesto">
+    <div class="wrap">
+      <p class="display creed" data-rv>
+        We warm up together. We drink coffee together. In between, run as
+        fast, slow, or <span class="out">mental</span> as you
+        <span class="gold">want.</span>
+      </p>
+      <span class="stamp" id="stamp">★ Amen Scoundrels ★</span>
+      <p class="creed-foot" data-rv>
+        Balancing people's different fitness and social needs — we all run
+        for different reasons, and everyone should get what they need out of
+        our group sessions.
+      </p>
     </div>
   </section>
 
   <!-- ============ weekly runs ============ -->
-  <section class="runs" id="runs">
+  <section class="section runs">
     <div class="wrap">
-      <p class="tag">The Weekly Runs</p>
-      <div class="run-grid">
-        <article class="run-card">
-          <figure>
+      <div class="kicker" data-rv>
+        <h2 class="display">The Weekly Runs</h2>
+        <span class="mono">Two starts. Zero alarms snoozed.</span>
+      </div>
+      <div class="run-grid" data-rv>
+        <article class="run">
+          <figure class="duo">
             <Image
-              src={wedPhoto}
-              alt="The Wednesday crew running through Perth suburbs under a blue sky"
+              src={crewPhoto}
+              alt="Wednesday crew mid-run"
               widths={[480, 800]}
-              sizes="(max-width: 56rem) 92vw, 42vw"
+              sizes="(max-width: 900px) 92vw, 45vw"
             />
           </figure>
-          <header>
-            <h3>Wednesday</h3>
-            <p class="meta">⚲ Herdsman Lake · 0530</p>
-          </header>
-          <p>
-            Something for everyone. Easy some weeks, intervals and tempo
-            others. Everything at your own pace — all welcome.
-          </p>
-          <ol class="rotation" role="list">
-            {ROTATION.map(({ week, session }) => (
+          <div class="run-body">
+            <div class="run-head">
+              <h3 class="display">Wed</h3>
+              <span class="bib">0530 · Herdsman Lake</span>
+            </div>
+            <p>
+              Something for everyone. Easy some weeks, intervals and tempo
+              others — everything at your own pace, all welcome.
+            </p>
+            <ul class="sched">
+              {ROTATION.map(({ week, session }) => (
+                <li><span class="wk">{week}</span><span>{session}</span></li>
+              ))}
               <li>
-                <span class="week">{week} ↝</span> {session}
+                <span class="wk">5th</span>
+                <span class="rainbow" aria-label={SURPRISE}>
+                  {SURPRISE.split("").map((ch, i) => (
+                    <span style={`--i: ${i};`} aria-hidden="true">{ch}</span>
+                  ))}
+                </span>
               </li>
-            ))}
-          </ol>
-          <a class="event-link" href={EVENTS.wednesday}>† Check it out on Strava</a>
+            </ul>
+            <a class="run-link" href={EVENTS.wednesday}>Strava event ↗</a>
+          </div>
         </article>
 
-        <article class="run-card">
-          <figure>
+        <article class="run">
+          <figure class="duo">
             <Image
-              src={friPhoto}
-              alt="Post-run breakfast on the wall at il Lido, ocean behind"
+              src={lidoPhoto}
+              alt="Breakfast on the wall at il Lido"
               widths={[480, 800]}
-              sizes="(max-width: 56rem) 92vw, 42vw"
+              sizes="(max-width: 900px) 92vw, 45vw"
             />
           </figure>
-          <header>
-            <h3>Friday</h3>
-            <p class="meta">⚲ il Lido · 0600</p>
-          </header>
-          <p>Beach during the summer, suburbs in the winter.</p>
-          <ul class="rotation" role="list">
-            <li><span class="week">Sun ↝</span> 7–10km on the soft sand when the sand is warm</li>
-            <li><span class="week">Rain ↝</span> 10km through the suburbs when it's cold</li>
-          </ul>
-          <a class="event-link" href={EVENTS.friday}>† Check it out on Strava</a>
+          <div class="run-body">
+            <div class="run-head">
+              <h3 class="display">Fri</h3>
+              <span class="bib">0600 · il Lido</span>
+            </div>
+            <p>Beach during the summer, suburbs in the winter — and sometimes the CBD.</p>
+            <ul class="sched">
+              {FRIDAY.map(({ week, session }) => (
+                <li><span class="wk">{week}</span><span>{session}</span></li>
+              ))}
+            </ul>
+            <a class="run-link" href={EVENTS.friday}>Strava event ↗</a>
+          </div>
         </article>
       </div>
     </div>
   </section>
 
   <!-- ============ traditions ============ -->
-  <section class="traditions" id="traditions">
-    <div class="wrap traditions-grid">
-      <div>
-        <p class="tag">When it's not Wednesday or Friday</p>
-        <h2>The Traditions</h2>
-        <p class="trad-intro">
-          Always something different, always exciting.
-        </p>
-        <ol class="trad-list" role="list">
-          {TRADITIONS.map(({ name, blurb }, i) => (
-            <li>
-              <span class="num">{String(i + 1).padStart(2, "0")}</span>
-              <div>
-                <h3>{name}</h3>
-                <p>{blurb}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
+  <section class="section trads">
+    <div class="wrap">
+      <div class="kicker" data-rv>
+        <h2 class="display">The Traditions</h2>
+        <span class="mono">When it's not Wednesday or Friday</span>
       </div>
-      <div class="trad-photos">
-        <Image
-          src={mentalPhoto}
-          alt="Runner throwing a shaka mid-run"
-          widths={[420, 700]}
-          sizes="(max-width: 56rem) 45vw, 24vw"
-        />
-        <Image
-          src={sockPhoto}
-          alt="Retro striped club socks and well-worn running shoes"
-          widths={[420, 700]}
-          sizes="(max-width: 56rem) 45vw, 24vw"
-        />
-      </div>
+      <ol class="trad-list">
+        {TRADITIONS.map(({ name, blurb }, i) => (
+          <li data-rv style={i ? `transition-delay: ${i * 0.08}s;` : undefined}>
+            <span class="num">{String(i + 1).padStart(2, "0")}</span>
+            <h3>{name}</h3>
+            <p>{blurb}</p>
+          </li>
+        ))}
+      </ol>
     </div>
   </section>
 
-  <!-- ============ live apps ============ -->
-  <section class="apps" id="apps">
-    <div class="wrap">
-      <p class="tag">Club HQ, on the internet</p>
-      <h2>The Apps</h2>
-      <div class="app-grid">
-        {APP_CARDS.map(({ href, name, blurb }) => (
-          <a class="app-card" href={href}>
-            <h3>{name} <span aria-hidden="true">→</span></h3>
-            <p>{blurb}</p>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
+  <Marquee text="AMEN SCOUNDRELS • SEE YOU AT 0530" reverse />
 </Base>
 
 <style>
   /* ---- hero ---- */
   .hero {
-    padding-block: clamp(2.5rem, 7vw, 5.5rem) clamp(2.5rem, 6vw, 4.5rem);
-  }
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: clamp(1.5rem, 4vw, 4rem);
-    align-items: center;
+    padding-top: clamp(36px, 5vw, 60px);
   }
   .hero h1 {
-    font-size: clamp(2.6rem, 7vw, 5rem);
-    margin-block: 0.5rem 1.5rem;
-  }
-  .meet-times {
-    list-style: none;
-    padding: 0;
     display: grid;
-    gap: 0.4rem;
-    margin-bottom: 2rem;
   }
-  .meet-times .when {
-    font-family: var(--font-mono);
-    font-weight: 700;
-    font-size: 0.95rem;
-    color: var(--accent);
-    margin-right: 0.75rem;
+  .hero .line-clip {
+    overflow: hidden;
   }
-  .meet-times .where {
-    font-size: 0.98rem;
-    color: var(--ink-soft);
+  .hero .line {
+    display: block;
+    font-size: clamp(58px, 10.5vw, 152px);
   }
-  .cta-row {
+  .hero .line.pink {
+    color: var(--pink);
+  }
+  .hero .line.outline {
+    color: transparent;
+    -webkit-text-stroke: 2.5px var(--ink);
+  }
+  :global(html.js-anim) .hero .line {
+    animation: line-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  :global(html.js-anim) .hero .line-clip:nth-child(2) .line {
+    animation-delay: 0.1s;
+  }
+  :global(html.js-anim) .hero .line-clip:nth-child(3) .line {
+    animation-delay: 0.2s;
+  }
+  @keyframes line-rise {
+    from { translate: 0 110%; }
+    to { translate: 0 0; }
+  }
+
+  .hero-meta {
     display: flex;
-    gap: 0.75rem;
+    flex-wrap: wrap;
+    gap: 10px 36px;
+    border-top: 2px solid var(--line);
+    border-bottom: 2px solid var(--line);
+    padding: 16px 0;
+    margin-top: clamp(24px, 3vw, 36px);
+  }
+  .hero-meta .mono b {
+    color: var(--pink);
+    font-weight: 700;
+  }
+
+  .ctas {
+    display: flex;
+    gap: 16px;
+    padding-top: 28px;
     flex-wrap: wrap;
   }
   .btn {
     font-family: var(--font-mono);
-    font-size: 0.9rem;
     font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    text-decoration: none;
-    border: 2px solid var(--ink);
-    border-radius: 999px;
-    padding: 0.7rem 1.4rem;
+    border: 2px solid var(--line);
+    padding: 15px 28px;
+    transition: transform 100ms ease, box-shadow 100ms ease;
   }
   .btn:hover {
-    border-color: var(--accent);
+    transform: translate(-3px, -3px);
+    box-shadow: 5px 5px 0 var(--pink);
+  }
+  .btn:active {
+    transform: translate(0, 0);
+    box-shadow: 0 0 0 var(--pink);
   }
   .btn-solid {
     background: var(--gold);
-    border-color: var(--espresso);
-    color: var(--gold-ink);
-  }
-  .btn-solid:hover {
-    background: var(--ember);
     color: var(--espresso);
   }
-  .hero-photo {
-    position: relative;
+
+  /* hero photo strip */
+  .strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: clamp(32px, 4vw, 48px);
+    border-top: 2px solid var(--line);
   }
-  .hero-photo img {
-    border-radius: 1rem;
-    border: 2px solid var(--espresso);
-    box-shadow: 8px 8px 0 var(--gold);
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
+  .strip :global(.duo) {
+    border-right: 2px solid var(--line);
+  }
+  .strip :global(.duo:last-child) {
+    border-right: 0;
+  }
+  .strip :global(.duo img) {
+    height: clamp(220px, 24vw, 300px);
   }
 
-  /* ---- manifesto ---- */
+  /* ---- manifesto (full-bleed pink in both themes) ---- */
   .manifesto {
-    padding-block: clamp(3rem, 8vw, 6rem);
+    background: var(--pink);
+    color: var(--crema);
+    padding: clamp(64px, 8vw, 96px) 0;
   }
-  .manifesto-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.6fr;
-    gap: clamp(1.5rem, 4vw, 4rem);
-    align-items: center;
+  .manifesto .creed {
+    font-size: clamp(40px, 5.6vw, 76px);
+    max-width: 12em;
+    /* looser than the display default so comma descenders don't collide */
+    line-height: 1.05;
   }
-  .manifesto-photo img {
-    border-radius: 1rem;
-    border: 2px solid var(--espresso);
-    box-shadow: -8px 8px 0 var(--pink);
+  .manifesto .creed .out {
+    display: inline-block;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--crema);
+    cursor: default;
   }
-  .creed {
-    font-family: var(--font-display);
+  .manifesto .creed .out:hover {
+    animation: mental 0.45s ease;
+  }
+  @keyframes mental {
+    20% { rotate: -2.5deg; translate: -2px 0; }
+    40% { rotate: 2.5deg; translate: 2px 0; }
+    60% { rotate: -1.5deg; }
+    80% { rotate: 1.5deg; }
+  }
+  .manifesto .creed .gold {
+    color: var(--gold);
+  }
+  .stamp {
+    display: inline-block;
+    font-family: var(--font-mono);
     font-weight: 700;
-    font-size: clamp(1.5rem, 3.4vw, 2.5rem);
-    line-height: 1.25;
-    letter-spacing: -0.01em;
-    margin-block: 1rem 1.25rem;
-    text-wrap: balance;
+    font-size: 15.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border: 2.5px solid var(--crema);
+    padding: 10px 20px;
+    rotate: -2deg;
+    margin-top: 44px;
   }
-  .creed em {
-    font-style: normal;
-    color: var(--accent);
+  :global(html.js-anim) .stamp {
+    opacity: 0;
   }
-  .amen {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: clamp(1.3rem, 2.6vw, 1.9rem);
-    color: var(--accent);
-    margin-bottom: 1.25rem;
+  :global(html.js-anim) .stamp:global(.stamped) {
+    animation: stamp-in 0.5s cubic-bezier(0.2, 1.5, 0.4, 1) 0.25s both;
   }
-  .creed-foot {
+  @keyframes stamp-in {
+    from { opacity: 0; scale: 2.2; rotate: 6deg; }
+    to { opacity: 1; scale: 1; rotate: -2deg; }
+  }
+  .manifesto .creed-foot {
+    margin-top: 36px;
+    max-width: 36em;
+    font-size: 17px;
+    color: #f6d7de;
+  }
+
+  /* ---- section scaffolding ---- */
+  .section {
+    padding: clamp(56px, 7vw, 88px) 0;
+  }
+  .kicker {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+  .kicker h2 {
+    font-size: clamp(44px, 5vw, 64px);
+  }
+  .kicker .mono {
     color: var(--ink-soft);
-    max-width: 38rem;
-  }
-  .visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
   }
 
   /* ---- weekly runs ---- */
-  .runs {
-    padding-block: clamp(3rem, 8vw, 6rem);
-  }
   .run-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: clamp(1.25rem, 3vw, 2.5rem);
-    margin-top: 1.25rem;
+    border: 2px solid var(--line);
   }
-  .run-card {
-    background: var(--bg-raised);
-    border: 2px solid var(--espresso);
-    border-radius: 1rem;
-    padding: 1.5rem;
-    display: grid;
-    gap: 0.9rem;
-    align-content: start;
+  .run {
+    border-right: 2px solid var(--line);
   }
-  :root[data-theme="dark"] .run-card {
-    border-color: var(--line);
+  .run:last-child {
+    border-right: 0;
   }
-  .run-card figure img {
-    border-radius: 0.6rem;
-    aspect-ratio: 16 / 10;
-    object-fit: cover;
+  .run :global(.duo) {
+    border-bottom: 2px solid var(--line);
   }
-  .run-card h3 {
-    font-size: 1.8rem;
+  .run :global(.duo img) {
+    height: 260px;
   }
-  .run-card .meta {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--accent);
-    margin-top: 0.2rem;
+  .run-body {
+    padding: 28px;
   }
-  .rotation {
-    list-style: none;
-    padding: 0.9rem 0 0;
-    border-top: 1px dashed var(--line);
-    display: grid;
-    gap: 0.35rem;
-    font-size: 0.95rem;
+  .run-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
   }
-  .rotation .week {
+  .run-head h3 {
+    font-size: clamp(42px, 4vw, 56px);
+  }
+  .bib {
     font-family: var(--font-mono);
     font-weight: 700;
-    font-size: 0.8rem;
-    color: var(--ink-soft);
-    display: inline-block;
-    min-width: 3.6rem;
+    font-size: 13.5px;
+    letter-spacing: 0.1em;
+    border: 2px solid var(--espresso);
+    padding: 6px 12px;
+    background: var(--gold);
+    color: var(--espresso);
+    rotate: 1.5deg;
+    transition: rotate 0.25s cubic-bezier(0.2, 1.6, 0.4, 1);
   }
-  .event-link {
+  .run:hover .bib {
+    rotate: -1.5deg;
+  }
+  .run-body > p {
+    margin-top: 14px;
+    color: var(--ink-soft);
+    font-size: 17px;
+  }
+  .sched {
+    list-style: none;
+    margin: 22px 0 0;
+    padding: 0;
+    border-top: 2px solid var(--line);
+  }
+  .sched li {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 16px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--ink-soft);
+    font-size: 16.5px;
+    align-items: baseline;
+    transition: padding-left 0.2s ease;
+  }
+  .sched li:hover {
+    padding-left: 6px;
+  }
+  .sched .wk {
     font-family: var(--font-mono);
-    font-size: 0.85rem;
-    justify-self: start;
+    font-weight: 700;
+    font-size: 13.5px;
+    color: var(--pink);
+    text-transform: uppercase;
+  }
+
+  /* rainbow letters (5th-week surprise) — sock-stripe rainbow, per-theme vars */
+  .rainbow {
+    font-weight: 700;
+  }
+  .rainbow span {
+    display: inline-block;
+  }
+  .rainbow span:nth-child(5n + 1) { color: var(--rb1); }
+  .rainbow span:nth-child(5n + 2) { color: var(--rb2); }
+  .rainbow span:nth-child(5n + 3) { color: var(--rb3); }
+  .rainbow span:nth-child(5n + 4) { color: var(--rb4); }
+  .rainbow span:nth-child(5n + 5) { color: var(--rb5); }
+  .sched li:hover .rainbow span {
+    animation: rb-pop 0.5s ease;
+    animation-delay: calc(var(--i) * 45ms);
+  }
+  @keyframes rb-pop {
+    30% { translate: 0 -3px; }
+  }
+
+  .run-link {
+    display: inline-block;
+    margin-top: 20px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--pink);
+    padding-bottom: 2px;
+  }
+  .run-link:hover {
+    color: var(--pink);
   }
 
   /* ---- traditions ---- */
-  .traditions {
-    padding-block: clamp(3rem, 8vw, 6rem);
-  }
-  .traditions h2,
-  .apps h2 {
-    font-size: clamp(2rem, 4.5vw, 3.2rem);
-    margin-block: 0.4rem 0.8rem;
-  }
-  .traditions-grid {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: clamp(1.5rem, 4vw, 4rem);
-    align-items: center;
-  }
-  .trad-intro {
-    color: var(--ink-soft);
-    margin-bottom: 1.5rem;
+  .trads {
+    padding-top: 0;
   }
   .trad-list {
     list-style: none;
+    margin: 0;
     padding: 0;
-    display: grid;
-    gap: 1.25rem;
   }
   .trad-list li {
-    display: flex;
-    gap: 1rem;
+    display: grid;
+    grid-template-columns: 200px 1.1fr 1.2fr;
+    gap: 32px;
     align-items: baseline;
-    border-top: 1px dashed var(--line);
-    padding-top: 1.25rem;
+    border-top: 2px solid var(--line);
+    padding: 26px 0;
+    transition: padding-left 0.25s ease;
+  }
+  .trad-list li:hover {
+    padding-left: 14px;
+  }
+  .trad-list li:last-child {
+    border-bottom: 2px solid var(--line);
   }
   .trad-list .num {
-    font-family: var(--font-mono);
-    font-weight: 700;
-    color: var(--accent);
+    font-family: var(--font-display);
+    font-size: 96px;
+    line-height: 0.9;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--pink);
+    transition: color 0.2s ease;
+  }
+  .trad-list li:hover .num {
+    color: var(--pink);
   }
   .trad-list h3 {
-    font-size: 1.25rem;
-    margin-bottom: 0.2rem;
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 30px;
+    letter-spacing: 0.01em;
   }
   .trad-list p {
     color: var(--ink-soft);
-    font-size: 0.98rem;
-  }
-  .trad-photos {
-    display: grid;
-    gap: 1rem;
-  }
-  .trad-photos img {
-    border-radius: 1rem;
-    border: 2px solid var(--espresso);
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-  }
-  .trad-photos img:first-child {
-    box-shadow: 8px 8px 0 var(--ember);
-  }
-  .trad-photos img:last-child {
-    box-shadow: -8px 8px 0 var(--seafoam);
-  }
-
-  /* ---- apps ---- */
-  .apps {
-    padding-block: clamp(3rem, 8vw, 6rem) clamp(4rem, 9vw, 7rem);
-  }
-  .app-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
-    margin-top: 1.5rem;
-  }
-  .app-card {
-    background: var(--bg-raised);
-    border: 2px solid var(--espresso);
-    border-radius: 1rem;
-    padding: 1.5rem;
-    text-decoration: none;
-    transition: transform 120ms ease, box-shadow 120ms ease;
-  }
-  :root[data-theme="dark"] .app-card {
-    border-color: var(--line);
-  }
-  .app-card:hover {
-    transform: translate(-3px, -3px);
-    box-shadow: 6px 6px 0 var(--seafoam);
-    color: inherit;
-  }
-  .app-card h3 {
-    font-size: 1.35rem;
-    margin-bottom: 0.5rem;
-  }
-  .app-card h3 span {
-    color: var(--accent);
-  }
-  .app-card p {
-    color: var(--ink-soft);
-    font-size: 0.95rem;
+    font-size: 17px;
   }
 
   /* ---- responsive ---- */
-  @media (max-width: 56rem) {
-    .hero-grid,
-    .manifesto-grid,
-    .run-grid,
-    .traditions-grid {
+  @media (max-width: 900px) {
+    .hero .line.outline {
+      -webkit-text-stroke-width: 1.5px;
+    }
+    .hero-meta {
+      flex-direction: column;
+      gap: 8px;
+    }
+    .strip {
       grid-template-columns: 1fr;
     }
-    .manifesto-photo {
-      order: 2;
-      max-width: 26rem;
+    .strip :global(.duo) {
+      border-right: 0;
+      border-bottom: 2px solid var(--line);
     }
-    .trad-photos {
-      grid-template-columns: 1fr 1fr;
+    .strip :global(.duo:last-child) {
+      border-bottom: 0;
     }
-    .app-grid {
+    .run-grid {
       grid-template-columns: 1fr;
+    }
+    .run {
+      border-right: 0;
+      border-bottom: 2px solid var(--line);
+    }
+    .run:last-child {
+      border-bottom: 0;
+    }
+    .trad-list li {
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding-block: 20px;
+    }
+    .trad-list .num {
+      font-size: 56px;
+    }
+  }
+  @media (max-width: 620px) {
+    .ctas {
+      flex-direction: column;
+    }
+    .btn {
+      text-align: center;
     }
   }
 </style>

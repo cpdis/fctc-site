@@ -1,62 +1,74 @@
 /* ============================================================
-   FCTC brand tokens — the canonical sheet for every fctc.fun
-   property. The hub is the source of truth; drift the dashboard
-   (Bricolage + DM Sans already) and the cup (Space Grotesk +
-   JetBrains Mono) toward these over time.
+   FCTC brand tokens — "The Poster" system. Canonical sheet for
+   every fctc.fun property; the dashboard and cup drift toward
+   these over time. Values are the source-of-truth port of
+   docs/plans/design_handoff_poster_redesign/designs/poster.css.
 
-   Palette story: espresso + cream from the coffee, gold from the
-   Cup (#ffd23f), ember/sunburst from the club socks (yellow →
-   orange → red retro stripes), pink + seafoam from the Filament
-   Coffee cold brew sign.
+   Palette story: espresso + crema from the coffee, gold from the
+   Cup, ember/flame from the club socks, pink + seafoam from the
+   Filament cold brew sign. Pink is the hero color.
    ============================================================ */
 
 :root {
-  /* type */
-  --font-display: "Bricolage Grotesque Variable", system-ui, sans-serif;
-  --font-body: "DM Sans Variable", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+  /* type — Anton for display, Archivo for body, Space Mono for labels */
+  --font-display: "Anton", sans-serif;
+  --font-body: "Archivo Variable", system-ui, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, monospace;
 
   /* brand constants (theme-independent) */
-  --gold: #ffd23f;        /* FCTC Cup gold */
-  --ember: #ff7a30;       /* sock stripe orange */
-  --flame: #e8442c;       /* sock stripe red */
-  --pink: #d75b77;        /* Filament sign pink */
-  --seafoam: #9ed1af;     /* Filament sign seafoam */
-  --espresso: #1c1410;    /* darkest coffee */
-  --crema: #faf5ea;       /* paper cream */
+  --gold: #ffd23f;
+  --ember: #ff7a30;
+  --flame: #e8442c;
+  --pink: #d75b77;
+  --seafoam: #9ed1af;
+  --espresso: #1c1410;
+  --crema: #faf4e6;
 
-  /* stripe motif, used as a repeating border/divider */
+  /* the yellow→orange→red sock-stripe divider */
   --stripe: linear-gradient(
     to right,
     var(--gold) 0 33.3%,
     var(--ember) 33.3% 66.6%,
     var(--flame) 66.6% 100%
   );
+
+  /* duotone photo tint + marquee speed */
+  --duo-tint: var(--pink);
+  --marquee-dur: 36s;
 }
 
-/* light (default): cream paper, espresso ink */
+/* light (default): crema paper, espresso ink, hard espresso rules */
 :root,
 :root[data-theme="light"] {
   color-scheme: light;
   --bg: var(--crema);
-  --bg-raised: #fffdf6;
   --ink: var(--espresso);
   --ink-soft: #5c4f43;
-  --line: #d9cdb8;
-  --accent: var(--pink);
-  --accent-ink: var(--crema);
-  --gold-ink: var(--espresso); /* text on gold surfaces */
+  --line: var(--espresso);
+  --foot-bg: var(--espresso);
+  --foot-ink: var(--crema);
+
+  /* rainbow letters (5th-week surprise) — contrast-tuned per theme */
+  --rb1: #e8442c;
+  --rb2: #f06d1f;
+  --rb3: #c79311;
+  --rb4: #43996a;
+  --rb5: #d75b77;
 }
 
-/* dark: espresso, cream ink, gold pops harder */
+/* dark: espresso paper, crema ink and rules, near-black footer */
 :root[data-theme="dark"] {
   color-scheme: dark;
   --bg: var(--espresso);
-  --bg-raised: #2a201a;
   --ink: var(--crema);
   --ink-soft: #b3a08f;
-  --line: #41342a;
-  --accent: var(--gold);
-  --accent-ink: var(--espresso);
-  --gold-ink: var(--espresso);
+  --line: var(--crema);
+  --foot-bg: #120d0a;
+  --foot-ink: var(--crema);
+
+  --rb1: #ff6a4f;
+  --rb2: #ff9a5c;
+  --rb3: #ffd23f;
+  --rb4: #9ed1af;
+  --rb5: #e98ba2;
 }

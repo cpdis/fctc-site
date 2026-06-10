@@ -10,9 +10,9 @@
     "check:routes": "scripts/check-routes.sh"
   },
   "dependencies": {
-    "@fontsource-variable/bricolage-grotesque": "^5.2.10",
-    "@fontsource-variable/dm-sans": "^5.2.8",
-    "@fontsource-variable/jetbrains-mono": "^5.2.8",
+    "@fontsource-variable/archivo": "^5.2.8",
+    "@fontsource/anton": "^5.2.7",
+    "@fontsource/space-mono": "^5.2.9",
     "astro": "^5.17.1"
   }
 }

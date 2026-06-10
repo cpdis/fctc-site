@@ -1,7 +1,8 @@
 ---
-import "@fontsource-variable/bricolage-grotesque";
-import "@fontsource-variable/dm-sans";
-import "@fontsource-variable/jetbrains-mono";
+import "@fontsource/anton";
+import "@fontsource-variable/archivo";
+import "@fontsource/space-mono";
+import "@fontsource/space-mono/700.css";
 import "../styles/global.css";
 
 interface Props {
@@ -11,18 +12,18 @@ interface Props {
 
 const { title, description } = Astro.props;
 
-// External club links — also used by the footer.
+// External club links — also used by the homepage.
 export const LINKS = {
   whatsapp: "https://chat.whatsapp.com/DzeapmJ6Pm4ILqSNNwFasq",
   strava: "https://www.strava.com/clubs/1156647",
 };
 
 // Every FCTC property on the domain. Adding next year's page = one entry
-// here (nav) + one entry in vercel.json (routing).
+// here (nav + footer) + one entry in vercel.json (routing).
 export const APPS = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/cup", label: "Cup" },
-  { href: "/2025wrapped", label: "2025 Wrapped" },
+  { href: "/2025wrapped", label: "Wrapped" },
 ];
 ---
 
@@ -43,9 +44,11 @@ export const APPS = [
     <meta property="og:image" content={new URL("/og.jpg", Astro.site)} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <meta name="theme-color" content="#faf5ea" />
+    <meta name="theme-color" content="#faf4e6" />
 
-    <!-- No-flash theme: saved choice > OS preference. Runs before paint. -->
+    <!-- No-flash theme (saved choice > OS preference) + the js-anim motion
+         gate. Both must run before first paint: the theme to avoid a flash,
+         the gate so entrance animations start from their hidden state. -->
     <script is:inline>
       (() => {
         const saved = localStorage.getItem("theme");
@@ -58,22 +61,40 @@ export const APPS = [
         document.documentElement.dataset.theme = theme;
         document
           .querySelector('meta[name="theme-color"]')
-          .setAttribute("content", theme === "dark" ? "#1c1410" : "#faf5ea");
+          .setAttribute("content", theme === "dark" ? "#1c1410" : "#faf4e6");
+        if (matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+          document.documentElement.classList.add("js-anim");
+        }
       })();
     </script>
   </head>
   <body>
     <header class="site-header">
-      <div class="wrap bar">
-        <a class="mark" href="/">FCTC</a>
+      <div class="bar">
+        <a class="mark" href="/">
+          <svg
+            class="cup"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path class="steam s1" d="M9 2.2 q1.1 1.4 0 2.8 q-1.1 1.4 0 2.8"></path>
+            <path class="steam s2" d="M13.5 2.2 q1.1 1.4 0 2.8 q-1.1 1.4 0 2.8"></path>
+            <path d="M5 11 h12 v4.5 a4.5 4.5 0 0 1 -4.5 4.5 h-3 A4.5 4.5 0 0 1 5 15.5 z"></path>
+            <path d="M17 12 h1.2 a2.4 2.4 0 0 1 0 4.8 H17"></path>
+          </svg>
+          <span class="mark-text">FC<b>TC</b></span>
+        </a>
         <nav aria-label="Club apps">
           {APPS.map((app) => <a href={app.href}>{app.label}</a>)}
+          <button id="theme-toggle" aria-label="Toggle light/dark theme">
+            <span class="sun" aria-hidden="true">☀</span>
+            <span class="moon" aria-hidden="true">☾</span>
+          </button>
         </nav>
-        <button id="theme-toggle" aria-label="Toggle light/dark theme">
-          <!-- sun/moon swap is pure CSS off data-theme -->
-          <span class="sun" aria-hidden="true">☀</span>
-          <span class="moon" aria-hidden="true">☾</span>
-        </button>
       </div>
       <div class="stripe" role="presentation"></div>
     </header>
@@ -81,19 +102,19 @@ export const APPS = [
     <slot />
 
     <footer class="site-footer">
-      <div class="stripe" role="presentation"></div>
       <div class="wrap foot">
-        <p class="tag">Filament Coffee Track Club — Perth, WA</p>
+        <span class="mono side">FCTC — Perth, WA</span>
         <nav aria-label="Footer">
           {APPS.map((app) => <a href={app.href}>{app.label}</a>)}
           <a href={LINKS.whatsapp}>WhatsApp</a>
           <a href={LINKS.strava}>Strava</a>
         </nav>
-        <p class="tag">Amen scoundrels.</p>
+        <span class="mono side">Amen scoundrels.</span>
       </div>
     </footer>
 
     <script>
+      // theme toggle — persists choice, keeps the browser chrome color in sync
       const toggle = document.getElementById("theme-toggle")!;
       const meta = document.querySelector('meta[name="theme-color"]')!;
       toggle.addEventListener("click", () => {
@@ -101,78 +122,154 @@ export const APPS = [
           document.documentElement.dataset.theme === "dark" ? "light" : "dark";
         document.documentElement.dataset.theme = next;
         localStorage.setItem("theme", next);
-        meta.setAttribute("content", next === "dark" ? "#1c1410" : "#faf5ea");
+        meta.setAttribute("content", next === "dark" ? "#1c1410" : "#faf4e6");
       });
+
+      // one-shot scroll reveals; the manifesto stamp (observed by id, not
+      // data-rv) gets its stamp-in class from the same observer
+      if (matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add("rv");
+                if (e.target.id === "stamp") e.target.classList.add("stamped");
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { threshold: 0.18 },
+        );
+        document
+          .querySelectorAll("[data-rv], #stamp")
+          .forEach((el) => io.observe(el));
+      }
     </script>
 
     <style>
+      /* ---- header ---- */
+      .site-header {
+        border-bottom: 2px solid var(--line);
+      }
       .site-header .bar {
         display: flex;
         align-items: center;
-        gap: 1.5rem;
-        padding-block: 0.9rem;
+        gap: 28px;
+        padding: 16px clamp(20px, 4vw, 48px);
       }
       .mark {
         font-family: var(--font-display);
-        font-weight: 800;
-        font-size: 1.4rem;
-        letter-spacing: -0.02em;
-        text-decoration: none;
+        font-size: 25px;
+        letter-spacing: 0.02em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .mark b {
+        font-weight: 400;
+        color: var(--pink);
+      }
+      .cup {
+        width: 26px;
+        height: 26px;
+        color: var(--ink);
+        flex: 0 0 auto;
+      }
+      .cup .steam {
+        stroke: var(--pink);
+        opacity: 0;
+      }
+      html.js-anim .cup .steam {
+        animation: steam 2.8s ease-in-out infinite;
+      }
+      html.js-anim .cup .steam.s2 {
+        animation-delay: 1.4s;
+      }
+      @keyframes steam {
+        0% { opacity: 0; transform: translateY(2.5px); }
+        35% { opacity: 0.9; }
+        70% { opacity: 0; transform: translateY(-2px); }
+        100% { opacity: 0; transform: translateY(-2px); }
       }
       .site-header nav {
-        display: flex;
-        gap: 1.1rem;
         margin-left: auto;
-        flex-wrap: wrap;
+        display: flex;
+        gap: 26px;
+        align-items: center;
       }
       .site-header nav a {
         font-family: var(--font-mono);
-        font-size: 0.85rem;
+        font-size: 13.5px;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
-        text-decoration: none;
       }
       .site-header nav a:hover {
+        color: var(--pink);
         text-decoration: underline;
-        text-decoration-color: var(--accent);
+        text-underline-offset: 5px;
+        text-decoration-thickness: 2px;
       }
       #theme-toggle {
         background: none;
-        border: 1px solid var(--line);
-        border-radius: 999px;
+        border: 2px solid var(--line);
         color: var(--ink);
         cursor: pointer;
-        font-size: 0.95rem;
+        font-size: 15px;
         line-height: 1;
-        padding: 0.45rem 0.55rem;
+        padding: 7px 9px;
+        transition: transform 100ms ease, box-shadow 100ms ease;
       }
       #theme-toggle:hover {
-        border-color: var(--accent);
-        color: var(--accent);
+        transform: translate(-2px, -2px);
+        box-shadow: 3px 3px 0 var(--pink);
       }
       :global(:root[data-theme="dark"]) .sun { display: none; }
       :global(:root:not([data-theme="dark"])) .moon { display: none; }
 
+      /* ---- footer ---- */
+      .site-footer {
+        background: var(--foot-bg);
+        color: var(--foot-ink);
+      }
       .site-footer .foot {
         display: flex;
-        flex-wrap: wrap;
         align-items: baseline;
-        gap: 1rem 2rem;
-        padding-block: 2rem 2.5rem;
+        gap: 16px 32px;
+        flex-wrap: wrap;
+        padding-block: 32px 40px;
       }
       .site-footer nav {
         display: flex;
-        gap: 1.25rem;
-        flex-wrap: wrap;
+        gap: 22px;
         margin-inline: auto;
+        flex-wrap: wrap;
       }
       .site-footer nav a {
         font-family: var(--font-mono);
-        font-size: 0.85rem;
-        text-decoration: none;
+        font-size: 13.5px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
       }
       .site-footer nav a:hover {
-        text-decoration: underline;
+        color: var(--gold);
+      }
+      .site-footer .side {
+        color: #b3a08f;
+      }
+
+      /* ---- responsive ---- */
+      @media (max-width: 900px) {
+        .site-footer .foot {
+          flex-direction: column;
+          gap: 14px;
+        }
+      }
+      @media (max-width: 620px) {
+        /* designed collapse: only the last app link (Wrapped) + toggle
+           survive; everything stays reachable via the footer nav */
+        .site-header nav a:not(:last-of-type) {
+          display: none;
+        }
       }
     </style>
   </body>
