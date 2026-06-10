@@ -53,10 +53,14 @@ reserved root assets) resolves identically through the hub's rewrites.
 ## Brand tokens
 
 `src/styles/tokens.css` is the canonical token sheet for all FCTC
-properties: espresso/crema base, Cup gold `#ffd23f`, sock-stripe ember and
-flame, Bricolage Grotesque (display) + DM Sans (body) + JetBrains Mono
-(accents). Light/dark via `data-theme` on `<html>` — saved choice beats OS
-preference, set by a no-flash inline script in `src/layouts/Base.astro`.
+properties — "The Poster" system from the 2026-06 Claude Design pass
+(`docs/plans/design_handoff_poster_redesign/`): espresso/crema base, pink
+`#d75b77` as the hero color, Cup gold `#ffd23f`, sock-stripe ember/flame,
+seafoam, pink-duotone photography, and Anton (display) + Archivo (body) +
+Space Mono (labels). Square corners and hard offset shadows everywhere; no
+soft radii. Light/dark via `data-theme` on `<html>` — saved choice beats OS
+preference, set by a no-flash inline script in `src/layouts/Base.astro`
+(which also gates all entrance motion on `js-anim` + reduced-motion).
 
 ## Assets
 
