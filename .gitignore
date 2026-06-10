@@ -6,7 +6,8 @@ dist/
 
 # source originals (full-res photos + 225MB video) — shipping copies live in
 # src/assets/photos/, downscaled. Originals stay local only.
-assets/
+# (root-anchored: src/assets/ must stay tracked)
+/assets/
 
 # os
 .DS_Store
