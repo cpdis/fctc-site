@@ -1,4 +1,5 @@
 ---
+import Analytics from "@vercel/analytics/astro";
 import "@fontsource/anton";
 import "@fontsource-variable/archivo";
 import "@fontsource/space-mono";
@@ -67,6 +68,11 @@ export const APPS = [
         }
       })();
     </script>
+
+    <!-- Web Analytics: events post to /_vercel/insights on the page origin,
+         so this project's analytics also collects the proxied apps' traffic
+         (their pages load the same same-origin script via the rewrites). -->
+    <Analytics />
   </head>
   <body>
     <header class="site-header">

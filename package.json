@@ -13,6 +13,7 @@
     "@fontsource-variable/archivo": "^5.2.8",
     "@fontsource/anton": "^5.2.7",
     "@fontsource/space-mono": "^5.2.9",
+    "@vercel/analytics": "^2.0.1",
     "astro": "^5.17.1"
   }
 }
