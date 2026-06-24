@@ -271,9 +271,17 @@ export const APPS = [
         }
       }
       @media (max-width: 620px) {
-        /* designed collapse: only the last app link (Wrapped) + toggle
-           survive; everything stays reachable via the footer nav */
-        .site-header nav a:not(:last-of-type) {
+        /* Phone header: three links + logo + toggle overflow, so keep the two
+           current ones (Cup is the headline, Wrapped next) and drop Dashboard —
+           the 2025 app — to the footer. Tighten spacing so the rest fits. */
+        .site-header nav {
+          gap: 15px;
+        }
+        .site-header nav a {
+          font-size: 12.5px;
+          letter-spacing: 0.06em;
+        }
+        .site-header nav a:first-of-type {
           display: none;
         }
       }
