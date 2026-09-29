@@ -4,12 +4,16 @@ import Base, { LINKS } from "../layouts/Base.astro";
 import Marquee from "../components/Marquee.astro";
 
 import crewPhoto from "../assets/photos/wednesday-crew.jpg";
+import mondayPhoto from "../assets/photos/monday-sunrise.jpg";
 import singletPhoto from "../assets/photos/club-singlet.jpg";
 import lidoPhoto from "../assets/photos/breakfast-il-lido.jpg";
 
-// Strava group events — archived off the old Framer page; the club's only
-// other record of these IDs is Strava itself.
+// Strava group events. Wednesday and Friday were archived off the old Framer
+// page; the club's only other record of these IDs is Strava itself. Monday
+// keeps Strava's share link, which opens the event in the Strava app on a
+// phone (it resolves to group_events/3445578449413294590).
 const EVENTS = {
+  monday: "https://strava.app.link/Nep9ybTKO6b",
   wednesday: `${LINKS.strava}/group_events/1434762`,
   friday: `${LINKS.strava}/group_events/1434766`,
 };
@@ -45,14 +49,14 @@ const TRADITIONS = [
   },
   {
     name: "Birthday Halfs",
-    blurb: "If it's your birthday, we run a half marathon in your honor.",
+    blurb: "If it's your birthday, we run a half marathon in your honor. Sometimes.",
   },
 ];
 ---
 
 <Base
   title="Filament Coffee Track Club"
-  description="Perth run club. Wednesdays at Herdsman Lake 5:30am, Fridays at il Lido 6:00am. We warm up together, we drink coffee together — in between, run as fast, slow, or mental as you want."
+  description="Perth run club. Mondays at Drift Kitchen 5:30am, Wednesdays at Herdsman Lake 5:30am, Fridays at il Lido 6:00am. We warm up together, we drink coffee together — in between, run as fast, slow, or mental as you want."
 >
   <!-- ============ hero ============ -->
   <section class="hero">
@@ -64,6 +68,7 @@ const TRADITIONS = [
       </h1>
       <div class="hero-meta">
         <span class="mono"><b>Perth WA</b> — Est. on a Wednesday</span>
+        <span class="mono"><b>Mon 0530</b> Drift Kitchen</span>
         <span class="mono"><b>Wed 0530</b> Herdsman Lake</span>
         <span class="mono"><b>Fri 0600</b> il Lido, Cottesloe</span>
       </div>
@@ -127,16 +132,35 @@ const TRADITIONS = [
     <div class="wrap">
       <div class="kicker" data-rv>
         <h2 class="display">Weekly Runs</h2>
-        <span class="mono">Two starts. Zero alarms snoozed.</span>
       </div>
       <div class="run-grid" data-rv>
+        <!-- Monday has one run, so no schedule list: the link follows the copy. -->
+        <article class="run">
+          <figure class="duo">
+            <Image
+              src={mondayPhoto}
+              alt="Monday crew on the coast at sunrise"
+              widths={[480, 800]}
+              sizes="(max-width: 900px) 92vw, 30vw"
+            />
+          </figure>
+          <div class="run-body">
+            <div class="run-head">
+              <h3 class="display">Mon</h3>
+              <span class="bib">0530 · Drift Kitchen</span>
+            </div>
+            <p>Easy coastal run to the Centaur some weeks, intervals others.</p>
+            <a class="run-link" href={EVENTS.monday}>Strava event ↗</a>
+          </div>
+        </article>
+
         <article class="run">
           <figure class="duo">
             <Image
               src={crewPhoto}
               alt="Wednesday crew mid-run"
               widths={[480, 800]}
-              sizes="(max-width: 900px) 92vw, 45vw"
+              sizes="(max-width: 900px) 92vw, 30vw"
             />
           </figure>
           <div class="run-body">
@@ -171,7 +195,7 @@ const TRADITIONS = [
               src={lidoPhoto}
               alt="Breakfast on the wall at il Lido"
               widths={[480, 800]}
-              sizes="(max-width: 900px) 92vw, 45vw"
+              sizes="(max-width: 900px) 92vw, 30vw"
             />
           </figure>
           <div class="run-body">
@@ -197,7 +221,7 @@ const TRADITIONS = [
     <div class="wrap">
       <div class="kicker" data-rv>
         <h2 class="display">Traditions</h2>
-        <span class="mono">When it's not Wednesday or Friday</span>
+        <span class="mono">When it's not Monday, Wednesday, or Friday</span>
       </div>
       <ol class="trad-list">
         {TRADITIONS.map(({ name, blurb }, i) => (
@@ -387,10 +411,10 @@ const TRADITIONS = [
     color: var(--ink-soft);
   }
 
-  /* ---- weekly runs ---- */
+  /* ---- weekly runs: one column per run day ---- */
   .run-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     border: 2px solid var(--line);
   }
   .run {
