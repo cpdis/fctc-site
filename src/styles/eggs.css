@@ -1,0 +1,275 @@
+/* ============================================================
+   Easter eggs. Everything here styles nodes that src/scripts/eggs/
+   creates at runtime (so Astro's scoped styles can't reach them),
+   plus the site-wide half of Cold Brew Neon mode. Page-specific
+   neon tweaks live next to the markup they change, under
+   :global(html.neon).
+   ============================================================ */
+
+/* ---- overlay layer: particles, Cam, the magpie ---- */
+.egg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.egg-particle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  font-size: 30px;
+  line-height: 1;
+  will-change: transform, opacity;
+}
+
+/* ---- toast ---- */
+.egg-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 90;
+  max-width: calc(100vw - 32px);
+  translate: -50% 180%;
+  opacity: 0;
+  pointer-events: none;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--espresso);
+  color: var(--gold);
+  border: 2px solid var(--gold);
+  padding: 12px 18px;
+  box-shadow: 5px 5px 0 var(--pink);
+  transition: translate 0.35s cubic-bezier(0.2, 1.4, 0.4, 1), opacity 0.2s ease;
+}
+.egg-toast.show {
+  translate: -50% 0;
+  opacity: 1;
+}
+
+/* ---- Cam on a stick ---- */
+.egg-cam {
+  position: absolute;
+  width: clamp(150px, 34vw, 250px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: 50% 100%;
+}
+.egg-cam img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  /* die-cut sticker border, then the poster's hard offset shadow */
+  filter: drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff)
+    drop-shadow(0 3px 0 #fff) drop-shadow(0 -3px 0 #fff)
+    drop-shadow(6px 6px 0 var(--espresso));
+}
+.egg-cam i {
+  display: block;
+  width: 16px;
+  height: clamp(110px, 20vh, 180px);
+  margin-top: -34px; /* tucked up behind the chin */
+  background: linear-gradient(90deg, #ecd3a4, #d6b27a);
+  border: 2px solid var(--espresso);
+  border-radius: 8px 8px 0 0;
+  box-shadow: 4px 4px 0 var(--espresso);
+}
+
+/* ---- magpie ---- */
+.egg-magpie {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 14px; /* a slightly fairer hit area */
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: none;
+}
+.egg-magpie svg {
+  display: block;
+  width: 76px;
+  height: auto;
+  overflow: visible;
+}
+.egg-magpie .wing {
+  transform-origin: 36px 23px;
+  animation: egg-flap 0.16s ease-in-out infinite alternate;
+}
+@keyframes egg-flap {
+  to { transform: scaleY(-0.75); }
+}
+/* a black bird on espresso needs an edge */
+:root[data-theme="dark"] .egg-magpie svg,
+:root.neon .egg-magpie svg {
+  filter: drop-shadow(0 0 1.5px rgba(250, 244, 230, 0.9));
+}
+
+/* ---- date takeover tag on a tradition ---- */
+.egg-today {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 4px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--gold);
+  color: var(--espresso);
+  border: 2px solid var(--espresso);
+  padding: 3px 8px;
+  rotate: -3deg;
+}
+
+/* ---- Cold Brew Neon mode (Konami) ----
+   Beats both themes: :root.neon[data-theme] outranks :root[data-theme=…]. */
+:root.neon[data-theme] {
+  color-scheme: dark;
+  --bg: #0c0806;
+  --ink: #faf4e6;
+  --ink-soft: #b3a08f;
+  --line: #9ed1af;
+  --foot-bg: #060403;
+  --foot-ink: #faf4e6;
+  --pink: #ff6b93;
+  --rb1: #ff6a4f;
+  --rb2: #ff9a5c;
+  --rb3: #ffd23f;
+  --rb4: #9ed1af;
+  --rb5: #ff8fb0;
+}
+/* white-hot tube, pink halo */
+html.neon .display,
+html.neon h3 {
+  text-shadow: 0 0 4px rgba(255, 107, 147, 0.6), 0 0 18px rgba(255, 107, 147, 0.4);
+}
+html.neon .stripe {
+  box-shadow: 0 0 14px rgba(255, 122, 48, 0.75);
+}
+/* tubes buzzing to life */
+html.neon-ignite .display,
+html.neon-ignite h3 {
+  animation: egg-ignite 1.4s linear both;
+}
+@keyframes egg-ignite {
+  0% { opacity: 0.12; }
+  8% { opacity: 1; }
+  11% { opacity: 0.2; }
+  18% { opacity: 1; }
+  21% { opacity: 0.35; }
+  30%, 100% { opacity: 1; }
+}
+
+/* ---- Run to Filament ---- */
+.egg-game {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(8, 5, 4, 0.8);
+}
+.egg-game-panel {
+  width: min(796px, 100%);
+  background: #0c0806;
+  color: #faf4e6;
+  border: 2px solid #9ed1af;
+  box-shadow: 0 0 18px rgba(158, 209, 175, 0.45), 6px 6px 0 #ff6b93;
+  padding: 16px;
+}
+.egg-game-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.egg-game-bar h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(24px, 5vw, 34px);
+  line-height: 1;
+  text-transform: uppercase;
+  color: #ff6b93;
+  text-shadow: 0 0 6px rgba(255, 107, 147, 0.8), 0 0 20px rgba(255, 107, 147, 0.45);
+}
+.egg-game-x {
+  background: none;
+  border: 2px solid #faf4e6;
+  color: #faf4e6;
+  font: 700 15px/1 var(--font-mono);
+  padding: 7px 10px;
+  cursor: pointer;
+}
+.egg-game-x:hover {
+  box-shadow: 3px 3px 0 #ff6b93;
+}
+.egg-game-hud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  margin: 12px 0 10px;
+  font: 700 13px/1.2 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffd23f;
+}
+.egg-game-stage {
+  position: relative;
+  border: 2px solid rgba(158, 209, 175, 0.6);
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+.egg-game-stage canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.egg-game-msg {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 8px;
+  padding: 16px;
+  text-align: center;
+  background: rgba(12, 8, 6, 0.55);
+  pointer-events: none;
+}
+.egg-game-msg[hidden] {
+  display: none;
+}
+.egg-game-msg b {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(26px, 5vw, 44px);
+  line-height: 1;
+  text-transform: uppercase;
+  color: #ff6b93;
+  text-shadow: 0 0 6px rgba(255, 107, 147, 0.8), 0 0 22px rgba(255, 107, 147, 0.45);
+}
+.egg-game-msg span {
+  max-width: 40ch;
+  margin-inline: auto;
+  font: 700 13px/1.5 var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.egg-game-help {
+  margin-top: 10px;
+  font: 12px/1.4 var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #b3a08f;
+}

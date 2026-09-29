@@ -1,10 +1,13 @@
 ---
 import Analytics from "@vercel/analytics/astro";
+import { getImage } from "astro:assets";
 import "@fontsource/anton";
 import "@fontsource-variable/archivo";
 import "@fontsource/space-mono";
 import "@fontsource/space-mono/700.css";
 import "../styles/global.css";
+import "../styles/eggs.css";
+import camHead from "../assets/eggs/cam-head.webp";
 
 interface Props {
   title: string;
@@ -12,6 +15,11 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+
+// Cam's head on a stick (the Surprise? egg). Optimized here once and handed
+// to the client script via <body data-cam>, so it lands under /_astro/ —
+// never public/assets/, which the dashboard rewrite owns.
+const cam = await getImage({ src: camHead, width: 480, format: "webp" });
 
 // External club links — also used by the homepage.
 export const LINKS = {
@@ -74,7 +82,7 @@ export const APPS = [
          (their pages load the same same-origin script via the rewrites). -->
     <Analytics />
   </head>
-  <body>
+  <body data-cam={cam.src}>
     <header class="site-header">
       <div class="bar">
         <a class="mark" href="/">
@@ -120,6 +128,8 @@ export const APPS = [
     </footer>
 
     <script>
+      import "../scripts/eggs/site";
+
       // theme toggle — persists choice, keeps the browser chrome color in sync
       const toggle = document.getElementById("theme-toggle")!;
       const meta = document.querySelector('meta[name="theme-color"]')!;

@@ -34,22 +34,35 @@ const FRIDAY = [
   { week: "MSBB", session: "Some Fridays we start at Mount Street Breakfast Bar in the CBD" },
 ];
 
+// `slug` is how the date takeovers find a tradition; `emoji` is what flies
+// out when you tap it. Anzac Day's burst is `gentle`: a slow rise, not a
+// party.
 const TRADITIONS = [
   {
+    slug: "anzac",
     name: "Anzac Day Marathon",
     blurb: "A marathon on Anzac Day, because a dawn service deserves a dawn effort.",
+    emoji: ["🌅", "🍪"],
+    gentle: true,
   },
   {
+    slug: "christmas",
     name: "Christmas Marathon",
     blurb: "The culmination of a year's training — capped off with the Christmas party and a White Elephant.",
+    emoji: ["🎄", "🎁", "🐘"],
   },
   {
+    slug: "aaron",
     name: "Aaron's Birthday Beer Run",
     blurb: "What better way to celebrate than a half marathon with a few beers along the way?",
+    emoji: ["🍺", "🍻"],
   },
   {
+    slug: "birthday",
     name: "Birthday Halfs",
     blurb: "If it's your birthday, we run a half marathon in your honor. Sometimes.",
+    // a slice, not a whole cake — it's a half
+    emoji: ["🍰", "🎉"],
   },
 ];
 ---
@@ -108,7 +121,7 @@ const TRADITIONS = [
     </div>
   </section>
 
-  <Marquee text="FILAMENT COFFEE • COLD BREW • RUN" />
+  <Marquee name="open" text="FILAMENT COFFEE • COLD BREW • RUN" />
 
   <!-- ============ manifesto ============ -->
   <section class="manifesto">
@@ -176,7 +189,7 @@ const TRADITIONS = [
               {ROTATION.map(({ week, session }) => (
                 <li><span class="wk">{week}</span><span>{session}</span></li>
               ))}
-              <li>
+              <li data-egg="surprise">
                 <span class="wk">5th</span>
                 <span class="rainbow" aria-label={SURPRISE}>
                   {SURPRISE.split("").map((ch, i) => (
@@ -224,8 +237,14 @@ const TRADITIONS = [
         <span class="mono">When it's not Monday, Wednesday, or Friday</span>
       </div>
       <ol class="trad-list">
-        {TRADITIONS.map(({ name, blurb }, i) => (
-          <li data-rv style={i ? `transition-delay: ${i * 0.08}s;` : undefined}>
+        {TRADITIONS.map(({ slug, name, blurb, emoji, gentle }, i) => (
+          <li
+            data-rv
+            data-trad={slug}
+            data-burst={emoji.join(" ")}
+            data-gentle={gentle ? "" : undefined}
+            style={i ? `transition-delay: ${i * 0.08}s;` : undefined}
+          >
             <span class="num">{String(i + 1).padStart(2, "0")}</span>
             <h3>{name}</h3>
             <p>{blurb}</p>
@@ -235,8 +254,29 @@ const TRADITIONS = [
     </div>
   </section>
 
-  <Marquee text="AMEN SCOUNDRELS • SEE YOU AT 0530" reverse />
+  <Marquee name="close" text="AMEN SCOUNDRELS • SEE YOU AT 0530" reverse />
 </Base>
+
+<script>
+  import { burst } from "../scripts/eggs/fx";
+  import { preloadCam, surprise } from "../scripts/eggs/cam";
+
+  // Traditions: tap anywhere on one and its emoji fly out from that spot.
+  const GENTLE = { count: 6, speed: 1.8, gravity: -0.005, spin: 0, life: 2600 };
+  document.querySelectorAll<HTMLElement>("[data-burst]").forEach((li) => {
+    const emoji = li.dataset.burst!.split(" ");
+    const opts = li.hasAttribute("data-gentle") ? GENTLE : undefined;
+    li.addEventListener("click", (e) => burst(e.clientX, e.clientY, emoji, opts));
+  });
+
+  // 5th Wednesday: Surprise? (fetch Cam the moment someone gets close)
+  const fifth = document.querySelector<HTMLElement>('[data-egg="surprise"]');
+  if (fifth) {
+    fifth.addEventListener("pointerenter", preloadCam, { once: true });
+    fifth.addEventListener("touchstart", preloadCam, { once: true, passive: true });
+    fifth.addEventListener("click", (e) => surprise(e.clientX));
+  }
+</script>
 
 <style>
   /* ---- hero ---- */
@@ -569,6 +609,38 @@ const TRADITIONS = [
   .trad-list p {
     color: var(--ink-soft);
     font-size: 17px;
+  }
+
+  /* ---- Cold Brew Neon mode (Konami; tokens in styles/eggs.css) ---- */
+  :global(html.neon) .hero .line-clip {
+    overflow: visible; /* the rise is long done; don't box in the glow */
+  }
+  :global(html.neon) .hero .line.outline {
+    -webkit-text-stroke-color: var(--seafoam);
+    text-shadow: none; /* a blurred fill would blob; glow the stroke instead */
+    filter: drop-shadow(0 0 4px rgba(158, 209, 175, 0.9))
+      drop-shadow(0 0 14px rgba(158, 209, 175, 0.5));
+  }
+  :global(html.neon) .manifesto {
+    background: var(--bg);
+    border-block: 2px solid var(--pink);
+    box-shadow: 0 0 22px rgba(255, 107, 147, 0.45), inset 0 0 22px rgba(255, 107, 147, 0.25);
+  }
+  :global(html.neon) .manifesto .creed .out {
+    -webkit-text-stroke-color: var(--seafoam);
+    text-shadow: none;
+    filter: drop-shadow(0 0 5px rgba(158, 209, 175, 0.9));
+  }
+  :global(html.neon) .manifesto .creed .gold {
+    text-shadow: 0 0 6px rgba(255, 210, 63, 0.8), 0 0 20px rgba(255, 210, 63, 0.45);
+  }
+  :global(html.neon) .stamp {
+    border-color: var(--pink);
+    color: var(--pink);
+    box-shadow: 0 0 12px rgba(255, 107, 147, 0.6);
+  }
+  :global(html.neon) .trad-list .num {
+    filter: drop-shadow(0 0 5px rgba(255, 107, 147, 0.8));
   }
 
   /* ---- responsive ---- */

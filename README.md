@@ -4,8 +4,8 @@ The code-owned hub for [fctc.fun](https://fctc.fun) — the Filament Coffee
 Track Club's landing page, plus the routing table and brand tokens for every
 FCTC property on the domain. Replaces the old Framer apex.
 
-Built with [Astro](https://astro.build), fully static, zero client JS except
-the theme toggle.
+Built with [Astro](https://astro.build), fully static. Client JS is limited to
+the theme toggle, the scroll reveals, and the Easter eggs.
 
 ## Develop
 
@@ -61,6 +61,30 @@ Space Mono (labels). Square corners and hard offset shadows everywhere; no
 soft radii. Light/dark via `data-theme` on `<html>` — saved choice beats OS
 preference, set by a no-flash inline script in `src/layouts/Base.astro`
 (which also gates all entrance motion on `js-anim` + reduced-motion).
+
+## Easter eggs
+
+All in `src/scripts/eggs/` (runtime styles in `src/styles/eggs.css`). The
+site-wide ones load from `Base.astro`; the rest wire up in their pages. Every
+moving egg respects `prefers-reduced-motion` via the `js-anim` gate, since the
+global reduced-motion CSS doesn't reach rAF loops or `element.animate()`.
+
+| Egg | Trigger | Where |
+| --- | --- | --- |
+| Cam on a stick | Tap **Surprise?** (5 fast taps: the crowd) | `cam.ts`, homepage |
+| Tradition bursts | Tap a tradition | `fx.ts`, homepage |
+| Cold Brew Neon + Run to Filament | ↑↑↓↓←→←→BA, or swipes + two taps on a phone | `konami.ts`, `neon.ts`, `game.ts` (lazy-loaded) |
+| Magpie season | Scrolling, August–November | `magpie.ts` |
+| Coffee's going cold | Switching tabs | `site.ts` |
+| Console hello | Opening devtools | `site.ts` |
+| Custom 404s | `/parkrun`, `/pb`, `/sleep-in`, `/cam`… | `src/pages/404.astro` |
+| Date takeovers | Anzac Day, Sep 1 (Aaron), December | `dates.ts` |
+
+Dates are Perth's. Preview any day with `?eggdate=YYYY-MM-DD` (e.g.
+`/?eggdate=2026-09-01` for Aaron's birthday; any date in Aug–Nov also sends
+the first magpie within a couple of seconds of scrolling). Cam's cutout is
+`src/assets/eggs/cam-head.webp`, optimized at build time via `getImage()` in
+`Base.astro` — keep egg assets out of `public/assets/` (reserved path).
 
 ## Assets
 

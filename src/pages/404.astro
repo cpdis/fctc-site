@@ -2,6 +2,91 @@
 import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import sunrise from "../assets/photos/trigg-sunrise.jpg";
+
+// Custom 404s for paths people might (or might not) try, matched on the
+// first path segment. Swapped in by an inline script before first paint;
+// anything else keeps the default copy below.
+const LOST = [
+  {
+    paths: ["parkrun"],
+    tag: "404 — Wrong club",
+    title: "This isn't parkrun.",
+    sub: "parkrun's Saturday at 8. By then we've run, showered, and started on the second coffee.",
+  },
+  {
+    paths: ["pb", "pr"],
+    tag: "404 — PB not found",
+    title: "PB not found.",
+    sub: "Neither is ours. Keep turning up on Wednesdays — it'll come.",
+  },
+  {
+    paths: ["sleep-in", "sleepin", "snooze"],
+    tag: "404 — Nice try",
+    title: "There is no sleep-in.",
+    sub: "Alarm's set. See you at 0530.",
+  },
+  {
+    paths: ["taper", "tapering"],
+    tag: "404 — Tapering",
+    title: "Tapering, are we?",
+    sub: "Rest is training too. Coffee still counts.",
+  },
+  {
+    paths: ["coffee", "flat-white", "latte"],
+    tag: "404 — Earn it",
+    title: "Coffee comes after.",
+    sub: "Warm up, run as fast, slow, or mental as you want — then coffee. Them's the rules.",
+  },
+  {
+    paths: ["beer", "beers"],
+    tag: "404 — Too early",
+    title: "Only on September 1st.",
+    sub: "Aaron's Birthday Beer Run: a half marathon with a few beers along the way. Until then, cold brew.",
+  },
+  {
+    paths: ["magpie", "magpies"],
+    tag: "404 — Duck",
+    title: "Duck!",
+    sub: "Swooping season is August to November. Cable ties on the cap, eyes on the path.",
+  },
+  {
+    paths: ["marathon", "wall"],
+    tag: "404 — The wall",
+    title: "You've hit the wall.",
+    sub: "Somewhere around 32km, nothing makes sense. Including this URL.",
+  },
+  {
+    paths: ["intervals"],
+    tag: "404 — Rest interval",
+    title: "Rest interval extended.",
+    sub: "Indefinitely. Intervals are the 1st and 3rd Wednesdays — this isn't one.",
+  },
+  {
+    paths: ["0530", "530"],
+    tag: "404 — 0530",
+    title: "0530 isn't a page.",
+    sub: "It's a lifestyle. Mondays and Wednesdays, anyway.",
+  },
+  {
+    paths: ["dnf"],
+    tag: "404 — DNF",
+    title: "Did not find.",
+    sub: "Happens to the best of us. Walk it in.",
+  },
+  {
+    paths: ["amen"],
+    tag: "404 — Amen",
+    title: "Amen, scoundrel.",
+    sub: "Now go back to the start.",
+  },
+  {
+    // the popper below brings Cam out for these
+    paths: ["cam", "surprise"],
+    tag: "404 — Surprise?",
+    title: "Surprise?",
+    sub: "You found him.",
+  },
+];
 ---
 
 <Base
@@ -11,9 +96,9 @@ import sunrise from "../assets/photos/trigg-sunrise.jpg";
   <section class="lost">
     <div class="wrap lost-grid">
       <div data-rv>
-        <p class="mono tag">404 — Off Course</p>
-        <h1 class="display">You've run past the&nbsp;turnaround.</h1>
-        <p class="sub">
+        <p class="mono tag" data-lost="tag">404 — Off Course</p>
+        <h1 class="display" data-lost="title">You've run past the&nbsp;turnaround.</h1>
+        <p class="sub" data-lost="sub">
           There's nothing out here but soft sand. Head back and we'll wait at
           the coffee.
         </p>
@@ -30,7 +115,27 @@ import sunrise from "../assets/photos/trigg-sunrise.jpg";
       </figure>
     </div>
   </section>
+
+  <script define:vars={{ LOST }}>
+    const seg = location.pathname.split("/")[1]?.toLowerCase();
+    const hit = LOST.find((l) => l.paths.includes(seg));
+    if (hit) {
+      for (const key of ["tag", "title", "sub"]) {
+        document.querySelector(`[data-lost="${key}"]`).textContent = hit[key];
+      }
+      document.title = `${hit.title} — FCTC`;
+      document.documentElement.dataset.lost = hit.paths[0];
+    }
+  </script>
 </Base>
+
+<script>
+  import { popCam } from "../scripts/eggs/cam";
+
+  if (document.documentElement.dataset.lost === "cam") {
+    setTimeout(() => popCam(), 700);
+  }
+</script>
 
 <style>
   .lost {

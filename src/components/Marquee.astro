@@ -1,18 +1,20 @@
 ---
 // Gold marquee strip. Decorative (aria-hidden); pauses on hover.
-// `reverse` flips the travel direction for the closing band.
+// `reverse` flips the travel direction for the closing band. `name` lets the
+// date takeovers (src/scripts/eggs/dates.ts) find and retitle a band.
 interface Props {
   text: string;
+  name: string;
   reverse?: boolean;
 }
 
-const { text, reverse = false } = Astro.props;
+const { text, name, reverse = false } = Astro.props;
 
 // two identical spans; the track slides -50% for a seamless loop
 const content = `${text} • `.repeat(6);
 ---
 
-<div class:list={["marquee", { reverse }]} aria-hidden="true">
+<div class:list={["marquee", { reverse }]} data-marquee={name} aria-hidden="true">
   <div class="track">
     <span>{content}</span>
     <span>{content}</span>
@@ -44,6 +46,14 @@ const content = `${text} • `.repeat(6);
     font-size: 14px;
     letter-spacing: 0.2em;
     white-space: nowrap;
+  }
+  /* Cold Brew Neon mode: the gold band becomes a gold tube */
+  :global(html.neon) .marquee {
+    background: transparent;
+    color: var(--gold);
+    border-color: var(--gold);
+    text-shadow: 0 0 6px rgba(255, 210, 63, 0.8);
+    box-shadow: 0 0 14px rgba(255, 210, 63, 0.35), inset 0 0 14px rgba(255, 210, 63, 0.2);
   }
   @keyframes slide {
     to { transform: translateX(-50%); }
