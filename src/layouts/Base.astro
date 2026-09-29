@@ -271,18 +271,39 @@ export const APPS = [
         }
       }
       @media (max-width: 620px) {
-        /* Phone header: three links + logo + toggle overflow, so keep the two
-           current ones (Cup is the headline, Wrapped next) and drop Dashboard —
-           the 2025 app — to the footer. Tighten spacing so the rest fits. */
+        /* Phone header: the logo, all three links and the toggle stay on one
+           row. Tighter gaps and tracking make it fit at 375 px. */
+        .site-header .bar {
+          gap: 14px;
+        }
         .site-header nav {
-          gap: 15px;
+          gap: 13px;
         }
         .site-header nav a {
           font-size: 12.5px;
-          letter-spacing: 0.06em;
+          letter-spacing: 0.05em;
         }
-        .site-header nav a:first-of-type {
-          display: none;
+      }
+      @media (max-width: 374px) {
+        /* Small phones (320 px and up): a smaller mark, labels and toggle. */
+        .site-header .bar,
+        .site-header nav {
+          gap: 10px;
+        }
+        .site-header nav a {
+          font-size: 11px;
+          letter-spacing: 0.02em;
+        }
+        .mark {
+          font-size: 22px;
+          gap: 6px;
+        }
+        .cup {
+          width: 22px;
+          height: 22px;
+        }
+        #theme-toggle {
+          padding: 6px 7px;
         }
       }
     </style>
